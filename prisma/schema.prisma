@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement()) //dont want to give this info to the user
+  uuid      String   @unique @default(uuid())
+  password  String
+  username  String   @unique
+  email     String   @unique
+  firstName String   @map("first_name") //dbs will have snake case
+  lastName  String   @map("last_name")
+  avatar    String
+  type      Role     @default(USER)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  orders    Order[] //1:M
+  vendor    Vendor? //1:1
+
+  @@map("users")
+}
+
+model Vendor {
+  id             Int             @id @default(autoincrement())
+  uuid           String          @unique @default(uuid())
+  userId         Int             @unique @map("user_id")
+  name           String          @unique @map("vendor_name")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  user           User            @relation(fields: [userId], references: [id]) //userId here should match the id in the User model
+  vendorProducts VendorProduct[]  
+  
+  @@map("vendors")
+}
+
+model VendorProduct {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique @default(uuid())
+  name       String
+  quantity   Int
+  categoryId Int      @map("category_id")
+  vendorId   Int      @map("vendor_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  category   Category @relation(fields: [categoryId], references: [id])
+  vendor     Vendor   @relation(fields: [vendorId], references: [id])
+  product    Product? //1:1
+
+  @@map("vendorProducts")
+}
+
+model Product {
+  id              Int            @id @default(autoincrement())
+  uuid            String         @unique @default(uuid())
+  name            String
+  description     String
+  images          String[]
+  price           Float
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  categoryId      Int            @map("category_id")
+  vendorProductId Int            @unique @map("vendor_product_id")
+  category        Category       @relation(fields: [categoryId], references: [id])
+  vendorProduct   VendorProduct  @relation(fields: [vendorProductId], references: [id]) //1:1
+  productOrders   ProductOrder[]
+
+  @@map("products")
+}
+
+model Category {
+  id             Int             @id @default(autoincrement())
+  uuid           String          @unique @default(uuid())
+  name           String          @unique
+  products       Product[]
+  vendorProducts VendorProduct[] //1:M
+
+  @@map("categories")
+}
+
+model Order {
+  id            Int            @id @default(autoincrement())
+  uuid          String         @unique @default(uuid())
+  userId        Int            @map("user_id")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  orderStatus   OrderStatus    @default(PLACED) @map("order_status")
+  user          User           @relation(fields: [userId], references: [id])
+  productOrders ProductOrder[]
+
+  @@map("orders")
+}
+
+model ProductOrder {
+  productId Int     @map("product_id")
+  orderId   Int     @map("order_id")
+  quantity  Int
+  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+
+  @@id([productId, orderId]) //composite key, the primary key is parts of keys from other tables
+}
+
+enum OrderStatus {
+  PLACED
+  IN_TRANSIT
+  COMPLETED
+  CANCELLED
+}
+
+enum Role {
+  USER
+  ADMIN
+  VENDOR
+}
