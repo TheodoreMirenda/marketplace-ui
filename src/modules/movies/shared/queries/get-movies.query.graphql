@@ -1,0 +1,15 @@
+query getMovies(
+  $cursor: MovieWhereUniqueInput
+  $skip: Int!
+  $take: Int!
+  $order: MovieOrderByInput!
+  $where: MovieWhereInput
+  $search: SearchInput
+) {
+  payload: movies(cursor: $cursor, skip: $skip, take: $take, orderBy: $order, where: $where, search: $search) {
+    uuid
+    name
+    description
+    images
+  }
+}
