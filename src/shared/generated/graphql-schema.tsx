@@ -16,18 +16,30 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type Genre = {
-  __typename?: 'Genre';
-  createdAt?: Maybe<Scalars['DateTime']>;
+export type Category = {
+  __typename?: 'Category';
   id?: Maybe<Scalars['Float']>;
-  movies?: Maybe<Array<Movie>>;
   name?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  orders?: Maybe<Array<Order>>;
   uuid?: Maybe<Scalars['String']>;
 };
 
-export type GenreCreateInput = {
+export type CategoryCreateInput = {
   name: Scalars['String'];
+};
+
+export type CategoryCreateNestedOneWithoutProductsInput = {
+  connect: CategoryWhereUniqueInput;
+};
+
+export type CategoryCreateNestedOneWithoutVendorProductsInput = {
+  connect: CategoryWhereUniqueInput;
+};
+
+export type CategoryWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Float']>;
+  name?: InputMaybe<Scalars['String']>;
+  uuid?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginOutput = {
@@ -42,71 +54,52 @@ export type LoginUserInput = {
   password: Scalars['String'];
 };
 
-export type Movie = {
-  __typename?: 'Movie';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  description?: Maybe<Scalars['String']>;
-  genre?: Maybe<Genre>;
-  genreId?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  images?: Maybe<Array<Scalars['String']>>;
-  name?: Maybe<Scalars['String']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-  uuid?: Maybe<Scalars['String']>;
-};
-
-export type MovieCreateInput = {
-  description?: InputMaybe<Scalars['String']>;
-  genreId: Scalars['Float'];
-  images: Array<Scalars['String']>;
-  name: Scalars['String'];
-};
-
-export type MovieOrderByInput = {
-  createdAt?: InputMaybe<OrderByArg>;
-  description?: InputMaybe<OrderByArg>;
-  id?: InputMaybe<OrderByArg>;
-  name?: InputMaybe<OrderByArg>;
-  updatedAt?: InputMaybe<OrderByArg>;
-  uuid?: InputMaybe<OrderByArg>;
-};
-
-export type MovieWhereInput = {
-  createdAt?: InputMaybe<Scalars['DateTime']>;
-  description?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['Int']>;
-  name?: InputMaybe<Scalars['String']>;
-  updatedAt?: InputMaybe<Scalars['DateTime']>;
-  uuid?: InputMaybe<Scalars['String']>;
-};
-
-export type MovieWhereUniqueInput = {
-  id?: InputMaybe<Scalars['Int']>;
-  uuid?: InputMaybe<Scalars['String']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
-  createGenre: Genre;
-  createMovie: Movie;
+  createCategory: Category;
+  createOrder: Order;
+  createProduct: Product;
+  createProductOrder: ProductOrder;
   createUser: User;
+  createVendor: Vendor;
+  createVendorProduct: VendorProduct;
   login: LoginOutput;
   signup: User;
 };
 
 
-export type MutationCreateGenreArgs = {
-  data: GenreCreateInput;
+export type MutationCreateCategoryArgs = {
+  data: CategoryCreateInput;
 };
 
 
-export type MutationCreateMovieArgs = {
-  data: MovieCreateInput;
+export type MutationCreateOrderArgs = {
+  data: OrderCreateInput;
+};
+
+
+export type MutationCreateProductArgs = {
+  data: ProductCreateInput;
+};
+
+
+export type MutationCreateProductOrderArgs = {
+  data: ProductOrderCreateInput;
 };
 
 
 export type MutationCreateUserArgs = {
   data: UserCreateInput;
+};
+
+
+export type MutationCreateVendorArgs = {
+  data: VendorCreateInput;
+};
+
+
+export type MutationCreateVendorProductArgs = {
+  data: VendorProductCreateInput;
 };
 
 
@@ -119,26 +112,133 @@ export type MutationSignupArgs = {
   data: SignUpInput;
 };
 
-export enum OrderByArg {
-  Asc = 'ASC',
-  Desc = 'DESC'
+export type Order = {
+  __typename?: 'Order';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  orderStatus: OrderStatus;
+  productOrders?: Maybe<Array<ProductOrder>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user: User;
+  userId?: Maybe<Scalars['Float']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export type OrderCreateInput = {
+  productOrders: ProductOrderCreateNestedManyWithoutOrderInput;
+};
+
+export type OrderCreateNestedOneWithoutProductOrdersInput = {
+  connect: OrderWhereUniqueInput;
+};
+
+export enum OrderStatus {
+  Cancelled = 'CANCELLED',
+  Completed = 'COMPLETED',
+  InTransit = 'IN_TRANSIT',
+  Placed = 'PLACED'
 }
+
+export type OrderWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Float']>;
+  uuid?: InputMaybe<Scalars['String']>;
+};
+
+export type Product = {
+  __typename?: 'Product';
+  category?: Maybe<Category>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
+  images: Array<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  productOrder?: Maybe<Array<ProductOrder>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  uuid?: Maybe<Scalars['String']>;
+  vendorProduct?: Maybe<VendorProduct>;
+};
+
+export type ProductCreateInput = {
+  category: CategoryCreateNestedOneWithoutProductsInput;
+  description: Scalars['String'];
+  images: Array<Scalars['String']>;
+  name: Scalars['String'];
+  price: Scalars['Float'];
+  vendorProduct: VendorProductCreateNestedOneWithoutProductInput;
+};
+
+export type ProductCreateNestedOneWithoutProductOrderInput = {
+  connect: ProductWhereUniqueInput;
+};
+
+export type ProductOrder = {
+  __typename?: 'ProductOrder';
+  order?: Maybe<Order>;
+  orderId?: Maybe<Scalars['Float']>;
+  product?: Maybe<Product>;
+  productId?: Maybe<Scalars['Float']>;
+  quantity?: Maybe<Scalars['Float']>;
+};
+
+export type ProductOrderCreateInput = {
+  order: OrderCreateNestedOneWithoutProductOrdersInput;
+  product: ProductCreateNestedOneWithoutProductOrderInput;
+  quantity?: InputMaybe<Scalars['Float']>;
+};
+
+export type ProductOrderCreateManyOrderInput = {
+  productId?: InputMaybe<Scalars['Float']>;
+  quantity?: InputMaybe<Scalars['Float']>;
+};
+
+export type ProductOrderCreateManyOrderInputEnvelope = {
+  data: Array<ProductOrderCreateManyOrderInput>;
+};
+
+export type ProductOrderCreateNestedManyWithoutOrderInput = {
+  createMany: ProductOrderCreateManyOrderInputEnvelope;
+};
+
+export type ProductOrderWhereUniqueInput = {
+  orderId: Scalars['Float'];
+  productId: Scalars['Float'];
+};
+
+export type ProductWhereUniqueInput = {
+  id: Scalars['Float'];
+  uuid?: InputMaybe<Scalars['String']>;
+  vendorProductId?: InputMaybe<Scalars['Float']>;
+};
 
 export type Query = {
   __typename?: 'Query';
-  genres: Array<Genre>;
-  movies: Array<Movie>;
-  user: User;
+  Product?: Maybe<Product>;
+  ProductOrder?: Maybe<ProductOrder>;
+  category?: Maybe<Category>;
+  order?: Maybe<Order>;
+  user?: Maybe<User>;
+  vendor?: Maybe<VendorProduct>;
 };
 
 
-export type QueryMoviesArgs = {
-  cursor?: InputMaybe<MovieWhereUniqueInput>;
-  orderBy?: InputMaybe<MovieOrderByInput>;
-  search?: InputMaybe<SearchInput>;
-  skip?: InputMaybe<Scalars['Int']>;
-  take?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<MovieWhereInput>;
+export type QueryProductArgs = {
+  where: ProductWhereUniqueInput;
+};
+
+
+export type QueryProductOrderArgs = {
+  where: ProductOrderWhereUniqueInput;
+};
+
+
+export type QueryCategoryArgs = {
+  where: CategoryWhereUniqueInput;
+};
+
+
+export type QueryOrderArgs = {
+  where: OrderWhereUniqueInput;
 };
 
 
@@ -146,43 +246,54 @@ export type QueryUserArgs = {
   where: UserWhereUniqueInput;
 };
 
-export enum Role {
-  Admin = 'ADMIN',
-  User = 'USER'
-}
 
-export type SearchInput = {
-  value: Scalars['String'];
+export type QueryVendorArgs = {
+  where: VendorProductWhereUniqueInput;
 };
 
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER',
+  Vendor = 'VENDOR'
+}
+
 export type SignUpInput = {
+  avatar: Scalars['String'];
   email: Scalars['String'];
+  firstName: Scalars['String'];
   lastName: Scalars['String'];
-  name: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
+  avatar?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   email?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Float']>;
   lastName?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  orders?: Maybe<Array<Order>>;
   type?: Maybe<Role>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   username?: Maybe<Scalars['String']>;
   uuid?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
 };
 
 export type UserCreateInput = {
+  avatar: Scalars['String'];
   email: Scalars['String'];
+  firstName: Scalars['String'];
   lastName: Scalars['String'];
-  name: Scalars['String'];
   password: Scalars['String'];
   type: Role;
   username: Scalars['String'];
+};
+
+export type UserCreateNestedOneWithoutVendorInput = {
+  connect: UserWhereUniqueInput;
 };
 
 export type UserWhereUniqueInput = {
@@ -191,90 +302,85 @@ export type UserWhereUniqueInput = {
   uuid?: InputMaybe<Scalars['String']>;
 };
 
-export type GetMoviesQueryVariables = Exact<{
-  cursor?: InputMaybe<MovieWhereUniqueInput>;
-  skip: Scalars['Int'];
-  take: Scalars['Int'];
-  order: MovieOrderByInput;
-  where?: InputMaybe<MovieWhereInput>;
-  search?: InputMaybe<SearchInput>;
-}>;
+export type Vendor = {
+  __typename?: 'Vendor';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  uuid?: Maybe<Scalars['String']>;
+};
 
+export type VendorCreateInput = {
+  name: Scalars['String'];
+  user: UserCreateNestedOneWithoutVendorInput;
+};
 
-export type GetMoviesQuery = { __typename?: 'Query', payload: Array<{ __typename?: 'Movie', uuid?: string | null, name?: string | null, description?: string | null, images?: Array<string> | null }> };
+export type VendorCreateNestedOneWithoutVendorProductsInput = {
+  connect: VendorWhereUniqueInput;
+};
+
+export type VendorProduct = {
+  __typename?: 'VendorProduct';
+  category?: Maybe<Category>;
+  categoryId?: Maybe<Scalars['Float']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  id?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  product?: Maybe<Product>;
+  quantity?: Maybe<Scalars['Float']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  uuid?: Maybe<Scalars['String']>;
+  vendor?: Maybe<Vendor>;
+  vendorId?: Maybe<Scalars['Float']>;
+};
+
+export type VendorProductCreateInput = {
+  category: CategoryCreateNestedOneWithoutVendorProductsInput;
+  name: Scalars['String'];
+  quantity: Scalars['Float'];
+  vendor: VendorCreateNestedOneWithoutVendorProductsInput;
+};
+
+export type VendorProductCreateNestedOneWithoutProductInput = {
+  connect: VendorProductWhereUniqueInput;
+};
+
+export type VendorProductWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Float']>;
+  name?: InputMaybe<Scalars['String']>;
+  uuid?: InputMaybe<Scalars['String']>;
+};
+
+export type VendorWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Float']>;
+  userId?: InputMaybe<Scalars['String']>;
+  uuid?: InputMaybe<Scalars['String']>;
+  vendorName?: InputMaybe<Scalars['String']>;
+};
 
 export type LoginMutationVariables = Exact<{
   data: LoginUserInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, name?: string | null, type?: Role | null, lastName?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, type?: Role | null, firstName?: string | null, lastName?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
 
 export type SignupMutationVariables = Exact<{
   data: SignUpInput;
 }>;
 
 
-export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, name?: string | null, type?: Role | null, lastName?: string | null, createdAt?: any | null, updatedAt?: any | null } };
+export type SignupMutation = { __typename?: 'Mutation', signup: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, firstName?: string | null, type?: Role | null, lastName?: string | null, createdAt?: any | null, updatedAt?: any | null } };
 
 export type UserQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, name?: string | null, type?: Role | null, lastName?: string | null, createdAt?: any | null, updatedAt?: any | null } };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, firstName?: string | null, lastName?: string | null, type?: Role | null, createdAt?: any | null, updatedAt?: any | null } | null };
 
 
-export const GetMoviesDocument = gql`
-    query getMovies($cursor: MovieWhereUniqueInput, $skip: Int!, $take: Int!, $order: MovieOrderByInput!, $where: MovieWhereInput, $search: SearchInput) {
-  payload: movies(
-    cursor: $cursor
-    skip: $skip
-    take: $take
-    orderBy: $order
-    where: $where
-    search: $search
-  ) {
-    uuid
-    name
-    description
-    images
-  }
-}
-    `;
-
-/**
- * __useGetMoviesQuery__
- *
- * To run a query within a React component, call `useGetMoviesQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMoviesQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMoviesQuery({
- *   variables: {
- *      cursor: // value for 'cursor'
- *      skip: // value for 'skip'
- *      take: // value for 'take'
- *      order: // value for 'order'
- *      where: // value for 'where'
- *      search: // value for 'search'
- *   },
- * });
- */
-export function useGetMoviesQuery(baseOptions: Apollo.QueryHookOptions<GetMoviesQuery, GetMoviesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMoviesQuery, GetMoviesQueryVariables>(GetMoviesDocument, options);
-      }
-export function useGetMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMoviesQuery, GetMoviesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMoviesQuery, GetMoviesQueryVariables>(GetMoviesDocument, options);
-        }
-export type GetMoviesQueryHookResult = ReturnType<typeof useGetMoviesQuery>;
-export type GetMoviesLazyQueryHookResult = ReturnType<typeof useGetMoviesLazyQuery>;
-export type GetMoviesQueryResult = Apollo.QueryResult<GetMoviesQuery, GetMoviesQueryVariables>;
 export const LoginDocument = gql`
     mutation login($data: LoginUserInput!) {
   login(data: $data) {
@@ -285,8 +391,8 @@ export const LoginDocument = gql`
       uuid
       email
       username
-      name
       type
+      firstName
       lastName
       createdAt
       updatedAt
@@ -327,7 +433,7 @@ export const SignupDocument = gql`
     uuid
     email
     username
-    name
+    firstName
     type
     lastName
     createdAt
@@ -368,9 +474,9 @@ export const UserDocument = gql`
     uuid
     email
     username
-    name
-    type
+    firstName
     lastName
+    type
     createdAt
     updatedAt
   }

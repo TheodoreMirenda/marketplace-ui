@@ -7,8 +7,8 @@ mutation login($data: LoginUserInput!) {
           uuid
           email
           username
-          name
           type
+          firstName
           lastName
           createdAt
           updatedAt
