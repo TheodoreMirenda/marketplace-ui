@@ -1,4 +1,4 @@
-import { useSignupMutation } from "@/shared/generated/graphql-schema";
+import { useSignupMutation } from "/src/shared/generated/graphql-schema";
 import {
   Button,
   Flex,
@@ -58,7 +58,7 @@ const SignUpComponent: FC = () => {
                 Sign up
               </Heading>
               <Text fontSize={"lg"} color={"gray.600"}>
-                to enjoy all our free movies ✌️
+                create an account to place an order
               </Text>
             </Stack>
             <HStack>

@@ -12,7 +12,7 @@ export default function MainHeader() {
   
   return (
     <>
-    <Flex mt={0} height={'50px'} bgColor = {'#2f64ad'} justifyContent={'space-between'}>
+    <Flex mt={0} height={'50px'} bgColor = {'#2f64ad'} justifyContent={'space-between'} padding={0} >
     <Link href="/">
       <Text fontSize="32"  fontWeight="bold" color="white" ml={10} marginTop={'auto'}>
         The Fish Store

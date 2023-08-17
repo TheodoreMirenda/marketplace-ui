@@ -1,4 +1,4 @@
-import SignUpComponent from '@/modules/authentication/signup/signup.component';
+import SignUpComponent from '/src/modules/authentication/signup/signup.component';
 import { FC } from 'react';
   
   const Register:FC =()=> {
