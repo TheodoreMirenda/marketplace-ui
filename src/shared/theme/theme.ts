@@ -4,11 +4,12 @@ import type { StyleFunctionProps } from "@chakra-ui/styled-system";
 export const theme = extendTheme({
   colors: {
     fishPalette: {
-      green1: '#dad7cd',
-      green2: '#a3b18a',
-      green3: '#588157',
-      green4: '#3a5a40',
-      green5: '#344e41'
+      red: '#e63946',
+      green: '#457b9d',
+      white: '#f1faee',
+      gray: '#a8dadc',
+      cyan: '#1d3557',
+      darkBlue: "#0d1b2a"
     },
     doenet: {
       mainBlue: "#1a5a99",
@@ -46,29 +47,29 @@ export const theme = extendTheme({
       variants: {
         // We can override existing variants
         solid: {
-          bg: "fishPalette.green4",
-          color: "white",
+          bg: "fishPalette.red",
+          color: "fishPalette.white",
           _hover: {
-            bg: "fishPalette.green1",
+            bg: "fishPalette.red",
             color: "black",
             _disabled: { bg: "doenet.mainGrey" }
           }
         },
         outline: {
-          borderColor: "#2D5994",
+          borderColor: "fishPalette.white",
           _hover: {
-            bg: "fishPalette.green1",
+            bg: "fishPalette.red",
             _disabled: { bg: "#E2E2E2" }
           }
         },
         ghost: {
           _hover: {
-            bg: "fishPalette.green1",
+            bg: "fishPalette.red",
             _disabled: { bg: "#E2E2E2" }
           }
         },
         link: {
-          color: "fishPalette.green1"
+          color: "fishPalette.red"
           // _disabled: { bg: "white" }
         }
       }

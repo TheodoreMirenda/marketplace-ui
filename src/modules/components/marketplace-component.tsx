@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Select} from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Select, SimpleGrid} from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
@@ -45,6 +45,10 @@ const MarketPlaceComponent: FC = () => {
     getAllProducts();
   }, []);
 
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
+
   return (
     <>
       <Flex margin={0} marginLeft={0} paddingTop={0} >
@@ -54,8 +58,17 @@ const MarketPlaceComponent: FC = () => {
             src='/img/fishTank.jpg'
             minH={'450px'}
             zIndex={-1}
+            opacity={0.25}
             >
           </Image>
+          <VStack 
+            h={'300px'}
+          >
+            <Text
+              fontSize={'xl'}
+              as={'b'}>
+              Select Category
+            </Text>
 
           <Select
           
@@ -63,7 +76,7 @@ const MarketPlaceComponent: FC = () => {
             mr={8}
             w={'200px'}
             h={'40px'}
-            bg={'fishPalette.green4'}
+            bg={'fishPalette.cyan'}
             rounded={'lg'}
             boxShadow={'lg'}
             onChange={(e) => { handleSelectChange(e) }}
@@ -73,14 +86,14 @@ const MarketPlaceComponent: FC = () => {
                     <option value={category.id!}> {category.name}</option>
                   ))}
             </Select>
-
-            <VStack>
-              <HStack justifyContent={'center'} justifyItems={'center'} mt={'150'} mb={'150'}>
+            </VStack>
+            <Flex minW={'max-content'}>
+              <SimpleGrid justifyContent={'center'} justifyItems={'center'} mt={'150'} mb={'150'} columns={4} spacing={6}>
                 {products?.map((product) => (
                     <ProductComponent {...product}/>
                 ))}
-              </HStack>
-            </VStack>
+              </SimpleGrid>
+            </Flex>
           </HStack>
       </Flex>
     </>

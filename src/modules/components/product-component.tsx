@@ -1,5 +1,5 @@
 "use client"
-import { Flex, VStack, Text, Image } from "@chakra-ui/react"
+import { Flex, VStack, Text, Image, Button, HStack } from "@chakra-ui/react"
 import {
   Product,
 } from "@src/shared/generated/graphql-schema";
@@ -9,19 +9,22 @@ const ProductComponent: FC<Product> = (product) => {
   // console.log(product);
   return (
     <Flex
-    w={'200px'}
-    h={'300px'}
-    bg={'fishPalette.green4'}
+    w={'250px'}
+    h={'375px'}
+    bg={'fishPalette.cyan'}
     rounded={'lg'}
     justify={'center'}
-    align={'center'}
+    align={'top'}
     boxShadow={'lg'}
+    outline={'4px solid'}
+    outlineColor={'fishPalette.green'}
     >
-      <VStack>
+      <VStack spacing={0} justifyContent={'left'}>
       <Image
-        boxSize="180px"
+        mt={'12.5px'}
+        boxSize="225px"
         objectFit="cover"
-        bg={'fishPalette.green2'}
+        bg={'fishPalette.gray'}
         // alt={product.name}
         rounded={'lg'}
       />
@@ -29,22 +32,28 @@ const ProductComponent: FC<Product> = (product) => {
       <Text
         as={'b'}
         fontSize={'lg'}
-        color={'white'}
-        >{product.name} ${product.price}</Text>
+        color={'fishPalette.white'}
+        >{product.name}</Text>
+        <HStack>
+          <Text
+            as={'b'}
+            fontSize={'lg'}
+            color={'fishPalette.white'}
+            >${product.price}</Text>
+          
+        </HStack>
       <Text
         as={'i'}
         fontSize={'sm'}
-        color={'fishPalette.green1'}
-        >{product.description}</Text>
-      <Text
-        as={'b'}
-        fontSize={'lg'}
-        color={'white'}
-      >sold by {product.vendorProduct?.vendor?.name}</Text>
+        color={'fishPalette.gray'}
+        >{product.description} sold by {product.vendorProduct?.vendor?.name}</Text>
+      <Button 
+            h={'30px'} w={'125px'}>
+              Add to Cart</Button>
 
+      
       </VStack>
-      </Flex>
-
+    </Flex>
   )
 }
 export default ProductComponent;

@@ -16,7 +16,7 @@ export default function MainHeader() {
   
   return (
     <>
-    <Flex mt={0} height={'50px'} bg={'fishPalette.green5'} padding={0} justifyContent={'space-between'} align={'center'} >
+    <Flex mt={0} height={'50px'} bg={'fishPalette.cyan'} padding={0} justifyContent={'space-between'} align={'center'} >
       <HStack minW={'300px'}>
         <Image
           ml={2}
@@ -25,26 +25,26 @@ export default function MainHeader() {
           src='/img/fishStoreLogo.png'
           />
           <Link href="/">
-            <Text fontSize="32" as='b' textColor="fishPalette.green1" ml={2} marginTop={'auto'}>
+            <Text fontSize="32" as='b' textColor="fishPalette.white" ml={2} marginTop={'auto'}>
               TheFishStore
             </Text>
           </Link>
       </HStack>
       <SearchBar />
       <HStack ml={4} mr={4} spacing={8}>
-        <Link as={NextLink} color={'fishPalette.green1'}href="/about">About</Link>
-        <Link as={NextLink} color={'fishPalette.green1'}href="/login">Log In</Link>
+        <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
+        <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
       </HStack>
     </Flex>
 
-    <Flex mt={0} height={'40px'} bg={'fishPalette.green4'} justifyContent={'left'} padding={0} >
+    <Flex mt={0} height={'40px'} bg={'fishPalette.green'} justifyContent={'left'} padding={0} >
       <Link 
         as={NextLink} w='100px' h='40px' justifyContent='center' href="/marketplace"
         pt={2}
-        bg= "fishPalette.green4"
+        bg= "fishPalette.green"
         color= "white"
         _hover= {{
-          bg:"fishPalette.green1",
+          bg:"fishPalette.gray",
           color:"black",
           _disabled: { bg: "doenet.mainGrey" }
         }}
@@ -61,10 +61,10 @@ export default function MainHeader() {
         <Link 
         as={NextLink} w='100px' h='40px' justifyContent='center' href="/marketplace"
         pt={2}
-        bg= "fishPalette.green4"
+        bg= "fishPalette.green"
         color= "white"
         _hover= {{
-          bg:"fishPalette.green1",
+          bg:"fishPalette.gray",
           color:"black",
           _disabled: { bg: "doenet.mainGrey" }
         }}
