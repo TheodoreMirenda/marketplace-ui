@@ -10,7 +10,7 @@ const ProductComponent: FC<Product> = (product) => {
     <Flex
     w={'200px'}
     h={'300px'}
-    bg={'gray.800'}
+    bg={'fishPalette.green4'}
     rounded={'lg'}
     justify={'center'}
     align={'center'}
@@ -20,7 +20,7 @@ const ProductComponent: FC<Product> = (product) => {
       <Image
         boxSize="180px"
         objectFit="cover"
-        bgColor={'gray.400'}
+        bg={'fishPalette.green2'}
         // alt={product.name}
         rounded={'lg'}
       />
@@ -33,7 +33,7 @@ const ProductComponent: FC<Product> = (product) => {
       <Text
         as={'i'}
         fontSize={'sm'}
-        color={'white'}
+        color={'fishPalette.green1'}
         >{product.description}</Text>
       <Text
         as={'b'}

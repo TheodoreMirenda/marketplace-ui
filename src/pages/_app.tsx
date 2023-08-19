@@ -1,13 +1,9 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
-import AuthProvider from '/src/shared/contexts/auth.provider'
+import AuthProvider from '@src/shared/contexts/auth.provider'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import {theme} from '@chakra-ui/theme'
-import { extendTheme } from "@chakra-ui/react";
-const customTheme = extendTheme({
-  theme,
-});
+import {theme} from '@src/shared/theme/theme'
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
@@ -16,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   });
   
   return (
-    <ChakraProvider> 
+    <ChakraProvider theme={theme}> 
       <ApolloProvider client={client}>
         <AuthProvider>
           <Component {...pageProps} />

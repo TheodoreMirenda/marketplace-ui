@@ -13,7 +13,7 @@ import {
   Role
 } from "@src/shared/generated/graphql-schema";
 import ProductComponent from './product-component';
-
+import MainHeader from '@src/modules/components/mainHeader';
 
 const HomeComponent: FC = () => {
 
@@ -22,9 +22,6 @@ const HomeComponent: FC = () => {
   const [fetchCategory] = useCategoryLazyQuery({})
   // const [fetchProducts] = useProductsLazyQuery({})
   const fetchProducts = useProductsQuery({})
-
-
-  
 
   const [login] = useLoginMutation({})
   const [createUser] = useCreateUserMutation({})
@@ -104,6 +101,8 @@ const HomeComponent: FC = () => {
 
   return (
     <>
+        <MainHeader />
+    
          <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'}
          >
           <VStack minH={'450px'}>

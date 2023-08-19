@@ -11,8 +11,8 @@ import { Search2Icon } from "@chakra-ui/icons";
 export const SearchBar = () => {
   return (
     <>
-      <InputGroup borderRadius={5} size="sm" >
-        <Input type="text"placeholder="Search..." border="1px solid #949494" />
+      <InputGroup borderRadius={5} size="sm" maxW={'600px'}>
+        <Input type="text"placeholder="Search..."  />
         <InputRightAddon
           p={0}
           border="none"
