@@ -1,12 +1,10 @@
 mutation login($data: LoginUserInput!) {
   login(data: $data) {
-    access_token
+    access_token,
+    expiresAt,
     user {
       uuid
       username
-      orders{
-        uuid
-      }
     }
   }
 }
