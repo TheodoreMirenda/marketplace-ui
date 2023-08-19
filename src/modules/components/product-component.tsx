@@ -6,6 +6,7 @@ import {
 import { FC } from "react";
 
 const ProductComponent: FC<Product> = (product) => {
+  // console.log(product);
   return (
     <Flex
     w={'200px'}
@@ -29,7 +30,7 @@ const ProductComponent: FC<Product> = (product) => {
         as={'b'}
         fontSize={'lg'}
         color={'white'}
-        >{product.name}</Text>
+        >{product.name} ${product.price}</Text>
       <Text
         as={'i'}
         fontSize={'sm'}
@@ -39,7 +40,7 @@ const ProductComponent: FC<Product> = (product) => {
         as={'b'}
         fontSize={'lg'}
         color={'white'}
-      >${product.price}</Text>
+      >sold by {product.vendorProduct?.vendor?.name}</Text>
 
       </VStack>
       </Flex>

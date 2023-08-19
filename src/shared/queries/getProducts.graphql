@@ -1,0 +1,15 @@
+query getProducts($where: ProductWhereInput!) {
+  getProducts(where: $where) {
+    name
+    description
+    price
+    category {
+        name
+      }
+    vendorProduct{
+      vendor{
+        name
+      }
+    }
+  }
+}

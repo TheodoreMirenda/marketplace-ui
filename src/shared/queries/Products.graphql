@@ -1,7 +1,0 @@
-query Products {
-  Products {
-    name
-    description
-    price
-  }
-}

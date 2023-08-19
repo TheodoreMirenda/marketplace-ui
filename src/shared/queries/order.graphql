@@ -1,7 +1,9 @@
-query Product($where: ProductWhereUniqueInput!) {
-  Product(where: $where) {
-    name
-    description
-    price
+query order($where: OrderWhereUniqueInput!) {
+  order(where: $where) {
+    id
+    user{
+      id
+      email
+    }
   }
 }
