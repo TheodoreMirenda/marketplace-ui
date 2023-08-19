@@ -359,12 +359,19 @@ export type VendorWhereUniqueInput = {
   vendorName?: InputMaybe<Scalars['String']>;
 };
 
+export type ProductQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', Product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null } | null };
+
 export type LoginMutationVariables = Exact<{
   data: LoginUserInput;
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, type?: Role | null, firstName?: string | null, lastName?: string | null, createdAt?: any | null, updatedAt?: any | null } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, user: { __typename?: 'User', uuid?: string | null, username?: string | null, orders?: Array<{ __typename?: 'Order', uuid?: string | null }> | null } } };
 
 export type SignupMutationVariables = Exact<{
   data: SignUpInput;
@@ -381,21 +388,53 @@ export type UserQueryVariables = Exact<{
 export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id?: number | null, uuid?: string | null, email?: string | null, username?: string | null, firstName?: string | null, lastName?: string | null, type?: Role | null, createdAt?: any | null, updatedAt?: any | null } | null };
 
 
+export const ProductDocument = gql`
+    query Product($where: ProductWhereUniqueInput!) {
+  Product(where: $where) {
+    name
+    description
+    price
+  }
+}
+    `;
+
+/**
+ * __useProductQuery__
+ *
+ * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+      }
+export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+        }
+export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
+export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
+export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
 export const LoginDocument = gql`
     mutation login($data: LoginUserInput!) {
   login(data: $data) {
     access_token
-    expiresAt
     user {
-      id
       uuid
-      email
       username
-      type
-      firstName
-      lastName
-      createdAt
-      updatedAt
+      orders {
+        uuid
+      }
     }
   }
 }
