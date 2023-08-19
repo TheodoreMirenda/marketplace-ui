@@ -3,29 +3,21 @@ import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
   useUserLazyQuery,
-  useUserQuery,
   useProductLazyQuery,
   useCategoryLazyQuery,
   useCreateUserMutation,
-  useProductsLazyQuery,
-  useProductsQuery,
-  Product,
-  Role
+  Role,
 } from "@src/shared/generated/graphql-schema";
-import ProductComponent from './product-component';
-import MainHeader from '@src/modules/components/mainHeader';
+import DataCreator from "./create-data";
 
 const HomeComponent: FC = () => {
 
   const [fetchUser] = useUserLazyQuery({})
   const [fetchProduct] = useProductLazyQuery({})
   const [fetchCategory] = useCategoryLazyQuery({})
-  // const [fetchProducts] = useProductsLazyQuery({})
-  const fetchProducts = useProductsQuery({})
 
   const [login] = useLoginMutation({})
   const [createUser] = useCreateUserMutation({})
-  const [products, setProducts] = useState<Product[]>([]);
 
   const handleClick = async () => {
     const info = await fetchUser({
@@ -47,14 +39,6 @@ const HomeComponent: FC = () => {
     });
     console.log(info.data);
   }
-  // const handleProducts = async () => {
-  //   const info = await fetchProducts({
-  //   });
-  //   if(info.data?.Products){
-  //     console.log(info.data?.Products);
-  //     setProducts(info.data?.Products as Product[]);
-  //   }
-  // }
   const handleCategory = async () => {
     const info = await fetchCategory({
       variables: {
@@ -95,17 +79,10 @@ const HomeComponent: FC = () => {
     console.log(stuff);
   }
 
-  useEffect(() => {
-    setProducts(fetchProducts.data?.Products as Product[]);
-  }, [fetchProducts]);
-
   return (
     <>
-        <MainHeader />
-    
-         <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'}
-         >
-          <VStack minH={'450px'}>
+        <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'} >
+          <VStack minH={'1000px'}>
           <Image
             position={'absolute'}
             src='/img/fishTank.jpg'
@@ -113,18 +90,10 @@ const HomeComponent: FC = () => {
             zIndex={-1}
             >
             </Image>
-            <Spacer h={100}/>
-            <Text
-              fontSize={'5xl'}
-              fontWeight={'bold'}
-              color={'white'}
-              >
-              Products
-            </Text>
           <HStack justifyContent={'center'} justifyItems={'center'} mt={'50'} mb={'0'}>
-            {products?.map((product) => (
+            {/* {products?.map((product) => (
                 <ProductComponent {...product}/>
-            ))}
+            ))} */}
 
           </HStack>
           <HStack justifyContent={'center'} justifyItems={'center'} mt={'50'} mb={'100px'}>
@@ -145,10 +114,7 @@ const HomeComponent: FC = () => {
             <Button
               onClick={handleCreateUser}
               >Create User</Button>
-            {/* <Button
-              onClick={handleProducts}
-              >Get Products</Button> */}
-
+            <DataCreator/>
           </HStack>
           </VStack>
       </Flex>

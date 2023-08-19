@@ -361,12 +361,33 @@ export type VendorWhereUniqueInput = {
   vendorName?: InputMaybe<Scalars['String']>;
 };
 
+export type CreateCategoryMutationVariables = Exact<{
+  data: CategoryCreateInput;
+}>;
+
+
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory: { __typename?: 'Category', id?: number | null } };
+
+export type CreateProductMutationVariables = Exact<{
+  data: ProductCreateInput;
+}>;
+
+
+export type CreateProductMutation = { __typename?: 'Mutation', createProduct: { __typename?: 'Product', id?: number | null } };
+
 export type CreateUserMutationVariables = Exact<{
   data: UserCreateInput;
 }>;
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id?: number | null } };
+
+export type CreateVendorProductMutationVariables = Exact<{
+  data: VendorProductCreateInput;
+}>;
+
+
+export type CreateVendorProductMutation = { __typename?: 'Mutation', createVendorProduct: { __typename?: 'VendorProduct', id?: number | null } };
 
 export type LoginMutationVariables = Exact<{
   data: LoginUserInput;
@@ -428,6 +449,72 @@ export type VendorQueryVariables = Exact<{
 export type VendorQuery = { __typename?: 'Query', vendor?: { __typename?: 'VendorProduct', name?: string | null } | null };
 
 
+export const CreateCategoryDocument = gql`
+    mutation createCategory($data: CategoryCreateInput!) {
+  createCategory(data: $data) {
+    id
+  }
+}
+    `;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+
+/**
+ * __useCreateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
+      }
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export const CreateProductDocument = gql`
+    mutation createProduct($data: ProductCreateInput!) {
+  createProduct(data: $data) {
+    id
+  }
+}
+    `;
+export type CreateProductMutationFn = Apollo.MutationFunction<CreateProductMutation, CreateProductMutationVariables>;
+
+/**
+ * __useCreateProductMutation__
+ *
+ * To run a mutation, you first call `useCreateProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProductMutation, { data, loading, error }] = useCreateProductMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateProductMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductMutation, CreateProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateProductMutation, CreateProductMutationVariables>(CreateProductDocument, options);
+      }
+export type CreateProductMutationHookResult = ReturnType<typeof useCreateProductMutation>;
+export type CreateProductMutationResult = Apollo.MutationResult<CreateProductMutation>;
+export type CreateProductMutationOptions = Apollo.BaseMutationOptions<CreateProductMutation, CreateProductMutationVariables>;
 export const CreateUserDocument = gql`
     mutation createUser($data: UserCreateInput!) {
   createUser(data: $data) {
@@ -461,6 +548,39 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const CreateVendorProductDocument = gql`
+    mutation createVendorProduct($data: VendorProductCreateInput!) {
+  createVendorProduct(data: $data) {
+    id
+  }
+}
+    `;
+export type CreateVendorProductMutationFn = Apollo.MutationFunction<CreateVendorProductMutation, CreateVendorProductMutationVariables>;
+
+/**
+ * __useCreateVendorProductMutation__
+ *
+ * To run a mutation, you first call `useCreateVendorProductMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateVendorProductMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createVendorProductMutation, { data, loading, error }] = useCreateVendorProductMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateVendorProductMutation(baseOptions?: Apollo.MutationHookOptions<CreateVendorProductMutation, CreateVendorProductMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateVendorProductMutation, CreateVendorProductMutationVariables>(CreateVendorProductDocument, options);
+      }
+export type CreateVendorProductMutationHookResult = ReturnType<typeof useCreateVendorProductMutation>;
+export type CreateVendorProductMutationResult = Apollo.MutationResult<CreateVendorProductMutation>;
+export type CreateVendorProductMutationOptions = Apollo.BaseMutationOptions<CreateVendorProductMutation, CreateVendorProductMutationVariables>;
 export const LoginDocument = gql`
     mutation login($data: LoginUserInput!) {
   login(data: $data) {

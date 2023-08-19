@@ -1,10 +1,9 @@
 import { SearchIcon } from '@chakra-ui/icons'
-import { HStack, Text, Flex, Button, Image, Box, Divider } from '@chakra-ui/react'
-import Link from 'next/link'
+import { HStack, Text, Flex, Button, Image, Box, Divider, Link} from '@chakra-ui/react'
 import { SearchBar } from './search-bar'
 import { Category, useCategoriesQuery } from "@src/shared/generated/graphql-schema";
 import { useEffect, useState } from 'react';
-
+import NextLink from 'next/link'
 
 export default function MainHeader() {
 
@@ -32,18 +31,51 @@ export default function MainHeader() {
           </Link>
       </HStack>
       <SearchBar />
-      <HStack ml={4}>
-        <Button bg={'fishPalette.green5'} onClick={() => "/about"}>About</Button>
-        <Button bg={'fishPalette.green5'} onClick={() => "/login"}>Log In</Button>
+      <HStack ml={4} mr={4} spacing={8}>
+        <Link as={NextLink} color={'fishPalette.green1'}href="/about">About</Link>
+        <Link as={NextLink} color={'fishPalette.green1'}href="/login">Log In</Link>
       </HStack>
     </Flex>
 
     <Flex mt={0} height={'40px'} bg={'fishPalette.green4'} justifyContent={'left'} padding={0} >
-      <Button w='100px'>ALL</Button>
+      <Link 
+        as={NextLink} w='100px' h='40px' justifyContent='center' href="/marketplace"
+        pt={2}
+        bg= "fishPalette.green4"
+        color= "white"
+        _hover= {{
+          bg:"fishPalette.green1",
+          color:"black",
+          _disabled: { bg: "doenet.mainGrey" }
+        }}
+        verticalAlign={'center'}
+        alignItems={'center'}
+        textAlign={'center'}
+        fontSize={'lg'}
+        rounded={'lg'}
+        >
+        ALL</Link>
         <Divider orientation="vertical" w={2}/>
       {categories?.map((category) => (
         <>
-        <Button w='100px'>{category.name?.toUpperCase()}</Button> 
+        <Link 
+        as={NextLink} w='100px' h='40px' justifyContent='center' href="/marketplace"
+        pt={2}
+        bg= "fishPalette.green4"
+        color= "white"
+        _hover= {{
+          bg:"fishPalette.green1",
+          color:"black",
+          _disabled: { bg: "doenet.mainGrey" }
+        }}
+        verticalAlign={'center'}
+        alignItems={'center'}
+        textAlign={'center'}
+        fontSize={'lg'}
+        rounded={'lg'}
+        >
+        {category.name?.toUpperCase()}
+        </Link>
         <Divider orientation="vertical" w={2}/>
         </>
       ))}

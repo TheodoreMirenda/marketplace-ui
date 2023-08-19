@@ -1,0 +1,5 @@
+mutation createVendorProduct($data: VendorProductCreateInput!) {
+  createVendorProduct(data: $data) {
+    id
+  }
+}
