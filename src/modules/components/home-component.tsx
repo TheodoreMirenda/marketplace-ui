@@ -5,6 +5,8 @@ import {
   useUserLazyQuery,
   useUserQuery,
   useProductLazyQuery,
+  useCategoryLazyQuery,
+
 } from "/src/shared/generated/graphql-schema.tsx";
 
 import { useMutation, gql } from '@apollo/client';
@@ -13,6 +15,8 @@ const HomeComponent: FC = () => {
 
   const [fetchUser ] = useUserLazyQuery({})
   const [fetchProduct ] = useProductLazyQuery({})
+  const [fetchCategory ] = useCategoryLazyQuery({})
+
   const [login ] = useLoginMutation({})
 
   // const user = useUserQuery({
@@ -57,6 +61,17 @@ const HomeComponent: FC = () => {
     });
     console.log(info.data);
   }
+  const handleCategory = async () => {
+    console.log('clicked');
+    const info = await fetchCategory({
+      variables: {
+        where: {
+          id:1
+        }
+      }
+    });
+    console.log(info.data);
+  }
 
   const handleLogin = async () => {
     console.log('login clicked');
@@ -84,12 +99,19 @@ const HomeComponent: FC = () => {
             
           <HStack justifyContent={'center'} justifyItems={'center'} mt={'100'} mb={'100px'}>
             <Button>Sign Up</Button>
+
             <Button
-            onClick={handleClick}>Get User</Button>
+              onClick={handleClick}
+              >Get User</Button>
             <Button
-            onClick={handleLogin}>Login</Button>
+              onClick={handleLogin}
+              >Login</Button>
             <Button
-            onClick={handleProduct}>Get Product</Button>
+              onClick={handleProduct}
+              >Get Product</Button>
+            <Button
+              onClick={handleCategory}
+              >Get Category</Button>
 
           </HStack>
           </VStack>

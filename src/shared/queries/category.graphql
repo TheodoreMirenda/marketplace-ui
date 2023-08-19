@@ -1,0 +1,5 @@
+query category($where: CategoryWhereUniqueInput!) {
+  category(where: $where) {
+    name
+  }
+}

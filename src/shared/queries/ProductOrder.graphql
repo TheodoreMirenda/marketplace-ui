@@ -1,0 +1,6 @@
+query ProductOrder($where: ProductOrderWhereUniqueInput !) {
+  ProductOrder(where: $where) {
+    productId
+    orderId
+  }
+}

@@ -1,0 +1,5 @@
+query vendor($where: VendorProductWhereUniqueInput!) {
+  vendor(where: $where) {
+    name
+  }
+}
