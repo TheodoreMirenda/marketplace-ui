@@ -1,5 +1,5 @@
 "use client"
-import { Flex, VStack, Text, Image, Button, HStack, Link } from "@chakra-ui/react"
+import { Flex, VStack, Text, Image, Button, HStack, Link, border } from "@chakra-ui/react"
 import {
   Product,
 } from "@src/shared/generated/graphql-schema";
@@ -8,9 +8,9 @@ const imgPath = '/img/'
 import NextLink from 'next/link'
 
 const ProductComponent: FC<Product> = (product) => {
-  console.log(product);
   return (
-    <Flex
+      <Link as={NextLink} color={'fishPalette.white'}href={`/product/${product.uuid}`}>
+      <Flex
     w={'250px'}
     h={'375px'}
     bg={'fishPalette.cyan'}
@@ -20,20 +20,25 @@ const ProductComponent: FC<Product> = (product) => {
     boxShadow={'lg'}
     outline={'4px solid'}
     outlineColor={'fishPalette.green'}
+    _hover={
+      {
+        transform: 'scale(1.025)',
+        transition: 'transform .1s',
+        cursor: 'pointer',
+        outlineColor : 'fishPalette.gray'
+      }
+    }
     >
       <VStack spacing={0} justifyContent={'left'}>
-      <Link as={NextLink} color={'fishPalette.white'}href={`/product/${product.uuid}`}>
         <Image
           mt={'12.5px'}
           boxSize="225px"
           objectFit="cover"
           bg={'fishPalette.gray'}
-          // alt={product.name}
           fallbackSrc='https://via.placeholder.com/225'
           src={imgPath + product.images[0]}
           rounded={'lg'}
         />
-      </Link>
       <Text
         as={'b'}
         fontSize={'lg'}
@@ -44,19 +49,20 @@ const ProductComponent: FC<Product> = (product) => {
             as={'b'}
             fontSize={'lg'}
             color={'fishPalette.white'}
-            >${product.price}</Text>
+            >${product.price?.toFixed(2)}</Text>
           
         </HStack>
       <Text
         as={'i'}
         fontSize={'sm'}
         color={'fishPalette.gray'}
-        >{product.description} sold by {product.vendorProduct?.vendor?.name}</Text>
+        >{product.description}</Text>
       <Button 
             h={'30px'} w={'125px'}>
               Add to Cart</Button>
       </VStack>
     </Flex>
+    </Link>
   )
 }
 export default ProductComponent;

@@ -86,11 +86,10 @@ const HomeComponent: FC = () => {
           <Image
             position={'absolute'}
             src='/img/fishTank.jpg'
+            opacity={0.25}
             minH={'450px'}
             zIndex={-1}
-            >
-            </Image>
-
+            />
           <SimpleGrid justifyItems={'center'} mt={'50'} mb={'100px'} columns={3} spacing={4}>
             <Button>Sign Up</Button>
 

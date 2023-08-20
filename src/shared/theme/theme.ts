@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { background, extendTheme } from "@chakra-ui/react";
 import type { StyleFunctionProps } from "@chakra-ui/styled-system";
 
 export const theme = extendTheme({
@@ -31,6 +31,11 @@ export const theme = extendTheme({
     }
   },
   components: {
+    Text: {
+      baseStyle: {
+        color: "fishPalette.white"
+      }
+    },
     Button: {
       baseStyle: {
         fontWeight: "normal",
@@ -74,5 +79,8 @@ export const theme = extendTheme({
         }
       }
     }
+  },
+  backgroundColor: {
+    body: "fishPalette.red"
   }
 });
