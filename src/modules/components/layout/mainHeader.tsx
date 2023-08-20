@@ -35,7 +35,7 @@ export default function MainHeader() {
       <HStack ml={4} mr={4} spacing={8}>
         <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
         <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
-        <Button  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
+        <Button as={NextLink} href={"/cart"}  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
       </HStack>
     </Flex>
 
