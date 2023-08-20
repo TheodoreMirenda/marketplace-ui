@@ -4,6 +4,7 @@ import { SearchBar } from './search-bar'
 import { Category, useCategoriesQuery } from "@src/shared/generated/graphql-schema";
 import { useEffect, useState } from 'react';
 import NextLink from 'next/link'
+import {BsCart4} from 'react-icons/bs'
 
 export default function MainHeader() {
 
@@ -34,6 +35,7 @@ export default function MainHeader() {
       <HStack ml={4} mr={4} spacing={8}>
         <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
         <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
+        <Button  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
       </HStack>
     </Flex>
 

@@ -207,13 +207,10 @@ export type ProductOrderWhereUniqueInput = {
 
 export type ProductWhereInput = {
   categoryId?: InputMaybe<Scalars['Float']>;
-  id?: InputMaybe<Scalars['Float']>;
-  uuid?: InputMaybe<Scalars['String']>;
-  vendorProductId?: InputMaybe<Scalars['Float']>;
 };
 
 export type ProductWhereUniqueInput = {
-  id: Scalars['Float'];
+  id?: InputMaybe<Scalars['Float']>;
   uuid?: InputMaybe<Scalars['String']>;
   vendorProductId?: InputMaybe<Scalars['Float']>;
 };
@@ -414,7 +411,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', Product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null } | null };
+export type ProductQuery = { __typename?: 'Query', Product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string> } | null };
 
 export type ProductOrderQueryVariables = Exact<{
   where: ProductOrderWhereUniqueInput;
@@ -440,7 +437,7 @@ export type GetProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, category?: { __typename?: 'Category', name?: string | null } | null, vendorProduct?: { __typename?: 'VendorProduct', vendor?: { __typename?: 'Vendor', name?: string | null } | null } | null }> };
+export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string>, uuid?: string | null, category?: { __typename?: 'Category', name?: string | null } | null, vendorProduct?: { __typename?: 'VendorProduct', vendor?: { __typename?: 'Vendor', name?: string | null } | null } | null }> };
 
 export type OrderQueryVariables = Exact<{
   where: OrderWhereUniqueInput;
@@ -647,6 +644,7 @@ export const ProductDocument = gql`
     name
     description
     price
+    images
   }
 }
     `;
@@ -790,6 +788,8 @@ export const GetProductsDocument = gql`
     name
     description
     price
+    images
+    uuid
     category {
       name
     }

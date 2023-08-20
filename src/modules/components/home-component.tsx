@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer} from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, SimpleGrid} from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
@@ -90,13 +90,8 @@ const HomeComponent: FC = () => {
             zIndex={-1}
             >
             </Image>
-          <HStack justifyContent={'center'} justifyItems={'center'} mt={'50'} mb={'0'}>
-            {/* {products?.map((product) => (
-                <ProductComponent {...product}/>
-            ))} */}
 
-          </HStack>
-          <HStack justifyContent={'center'} justifyItems={'center'} mt={'50'} mb={'100px'}>
+          <SimpleGrid justifyItems={'center'} mt={'50'} mb={'100px'} columns={3} spacing={4}>
             <Button>Sign Up</Button>
 
             <Button
@@ -115,7 +110,7 @@ const HomeComponent: FC = () => {
               onClick={handleCreateUser}
               >Create User</Button>
             <DataCreator/>
-          </HStack>
+          </SimpleGrid>
           </VStack>
       </Flex>
     </>

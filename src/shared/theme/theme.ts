@@ -50,9 +50,9 @@ export const theme = extendTheme({
           bg: "fishPalette.red",
           color: "fishPalette.white",
           _hover: {
-            bg: "fishPalette.red",
-            color: "black",
-            _disabled: { bg: "doenet.mainGrey" }
+            bg: "fishPalette.white",
+            color: "fishPalette.red",
+            _disabled: { bg: "fishPalette.red" }
           }
         },
         outline: {

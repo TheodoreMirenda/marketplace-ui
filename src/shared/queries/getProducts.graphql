@@ -3,6 +3,8 @@ query getProducts($where: ProductWhereInput!) {
     name
     description
     price
+    images
+    uuid
     category {
         name
       }

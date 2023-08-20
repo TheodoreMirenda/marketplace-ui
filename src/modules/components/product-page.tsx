@@ -1,14 +1,23 @@
 "use client"
-import { Flex, VStack, Text, Image, Button, HStack, Link } from "@chakra-ui/react"
+import { Flex, VStack, Text, Image, Button, HStack } from "@chakra-ui/react"
 import {
   Product,
 } from "@src/shared/generated/graphql-schema";
 import { FC } from "react";
-const imgPath = '/img/'
-import NextLink from 'next/link'
 
-const ProductComponent: FC<Product> = (product) => {
-  console.log(product);
+const imgPath = '/img/'
+
+const ProductPageComponent: FC<Product> = (product) => {
+  console.log("product: " + product);
+
+  const getImagePath = () => {
+    if (product.images?.length > 0) {
+      return imgPath + product.images[0];
+    } else {
+      return 'https://via.placeholder.com/225';
+    }
+  }
+
   return (
     <Flex
     w={'250px'}
@@ -22,18 +31,17 @@ const ProductComponent: FC<Product> = (product) => {
     outlineColor={'fishPalette.green'}
     >
       <VStack spacing={0} justifyContent={'left'}>
-      <Link as={NextLink} color={'fishPalette.white'}href={`/product/${product.uuid}`}>
-        <Image
-          mt={'12.5px'}
-          boxSize="225px"
-          objectFit="cover"
-          bg={'fishPalette.gray'}
-          // alt={product.name}
-          fallbackSrc='https://via.placeholder.com/225'
-          src={imgPath + product.images[0]}
-          rounded={'lg'}
-        />
-      </Link>
+      <Image
+        mt={'12.5px'}
+        boxSize="225px"
+        objectFit="cover"
+        bg={'fishPalette.gray'}
+        // alt={product.name}
+        fallbackSrc='https://via.placeholder.com/225'
+        src={getImagePath()}
+        rounded={'lg'}
+      />
+
       <Text
         as={'b'}
         fontSize={'lg'}
@@ -44,7 +52,7 @@ const ProductComponent: FC<Product> = (product) => {
             as={'b'}
             fontSize={'lg'}
             color={'fishPalette.white'}
-            >${product.price}</Text>
+            >${product?.price}</Text>
           
         </HStack>
       <Text
@@ -55,8 +63,10 @@ const ProductComponent: FC<Product> = (product) => {
       <Button 
             h={'30px'} w={'125px'}>
               Add to Cart</Button>
+
+      
       </VStack>
     </Flex>
   )
 }
-export default ProductComponent;
+export default ProductPageComponent;

@@ -33,7 +33,7 @@ const DataCreator: FC = () => {
       quantity: 10,
       vendorId:1,
       categoryId: 1,
-      images: []
+      images: ["Java-Fern.jpg"]
     },
     {
       name:"Moss Ball",
@@ -42,7 +42,7 @@ const DataCreator: FC = () => {
       quantity: 10,
       vendorId:1,
       categoryId: 1,
-      images: []
+      images: ["mossball.jpg"]
     },
     {
       name:"Betta Fish",
@@ -51,7 +51,7 @@ const DataCreator: FC = () => {
       quantity: 12,
       vendorId:1,
       categoryId: 2,
-      images: []
+      images: ["bettaFish.jpg"]
     },
     {
       name:"Neon Tetra",
@@ -60,7 +60,7 @@ const DataCreator: FC = () => {
       quantity: 5,
       vendorId:1,
       categoryId: 2,
-      images: []
+      images: ["neonTetra.jpg"]
     }
   ]
 

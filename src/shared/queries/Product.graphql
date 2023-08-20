@@ -3,5 +3,6 @@ query Product($where: ProductWhereUniqueInput!) {
     name
     description
     price
+    images
   }
 }
