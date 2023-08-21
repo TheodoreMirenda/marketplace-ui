@@ -22,9 +22,10 @@ const LoginComponent: FC = () => {
     const { login, isLoading } = useContext(AuthContext);
 
     const onSubmit = async () =>{
-        console.log('onSubmit');
-        await login(values.email, values.password);
-        console.log('onSubmit done');
+        // console.log('onSubmit');
+        // const loginResp = await login(values.email, values.password);
+        const loginResp = await login("tjm3@gmail.com", "12345678910");
+        // console.log(loginResp);
     }
 
     const { handleSubmit, handleChange, setFieldValue, values, errors, touched } =
@@ -73,7 +74,7 @@ const LoginComponent: FC = () => {
               <Checkbox>Remember me</Checkbox>
               <Link color={"red.500"}>Forgot password?</Link>
             </Stack>
-            <Button onClick={()=>handleSubmit()} colorScheme={"red"} variant={"solid"}>
+            <Button onClick={()=>onSubmit()} colorScheme={"red"} variant={"solid"}>
               Sign in
             </Button>
           </Stack>

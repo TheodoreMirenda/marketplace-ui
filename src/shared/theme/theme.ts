@@ -1,7 +1,21 @@
-import { background, extendTheme } from "@chakra-ui/react";
+import {extendTheme, type ThemeConfig  } from "@chakra-ui/react";
 import type { StyleFunctionProps } from "@chakra-ui/styled-system";
+import { mode } from "@chakra-ui/theme-tools";
+
+const config: ThemeConfig = {
+  initialColorMode: 'dark',
+  useSystemColorMode: false,
+}
 
 export const theme = extendTheme({
+  config, 
+  styles: {
+    global: (props: StyleFunctionProps) => ({
+      body: {
+        bg: mode("fishPalette.darkBlue", "fishPalette.darkBlue")(props)
+      }
+    })
+  },
   colors: {
     fishPalette: {
       red: '#e63946',
@@ -10,24 +24,6 @@ export const theme = extendTheme({
       gray: '#a8dadc',
       cyan: '#1d3557',
       darkBlue: "#0d1b2a"
-    },
-    doenet: {
-      mainBlue: "#1a5a99",
-      lightBlue: "#b8d2ea",
-      solidLightBlue: "#8fb8de",
-      mainGrey: "#e3e3e3",
-      donutBody: "#eea177",
-      donutTopping: "#6d4445",
-      mainRed: "#c1292e",
-      lightRed: "#eab8b8",
-      mainGreen: "#459152",
-      canvas: "#ffffff",
-      canvastext: "#000000",
-      lightGreen: "#a6f19f",
-      lightYellow: "#f5ed85",
-      whiteBlankLink: "#6d4445",
-      mainYellow: "#94610a",
-      mainPurple: "#4a03d9"
     }
   },
   components: {

@@ -404,7 +404,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', uuid?: string | null, username?: string | null } } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', uuid?: string | null, username?: string | null, email?: string | null, type?: Role | null, firstName?: string | null, lastName?: string | null, avatar?: string | null } } };
 
 export type ProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -608,6 +608,11 @@ export const LoginDocument = gql`
     user {
       uuid
       username
+      email
+      type
+      firstName
+      lastName
+      avatar
     }
   }
 }

@@ -7,7 +7,7 @@ import { IUserProfile } from "../models";
 import {
   useLoginMutation,
   useUserLazyQuery,
-} from "../generated/graphql-schema";
+} from "@src/shared/generated/graphql-schema";
 import { useRouter } from "next/router";
 import jwt from "jsonwebtoken";
 
@@ -64,14 +64,17 @@ const AuthProvider: FC<{ children: any }> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
+
       const response = await loginMutation({
         variables: {
           data: {
             email,
-            password,
+            password
           },
         },
       });
+
+      console.log(response);
       setUser(response.data?.login.user as IUserProfile);
       setIsLoading(false);
       localStorage.setItem(
@@ -82,6 +85,7 @@ const AuthProvider: FC<{ children: any }> = ({ children }) => {
       
       router.push('/')
     } catch (error) {
+      console.log(error);
       setIsLoading(false);
     }
   };

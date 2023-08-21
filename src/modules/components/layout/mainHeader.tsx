@@ -2,9 +2,10 @@ import { SearchIcon } from '@chakra-ui/icons'
 import { HStack, Text, Flex, Button, Image, Box, Divider, Link} from '@chakra-ui/react'
 import { SearchBar } from './search-bar'
 import { Category, useCategoriesQuery } from "@src/shared/generated/graphql-schema";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import NextLink from 'next/link'
 import {BsCart4} from 'react-icons/bs'
+import AuthContext from "@src/shared/contexts/auth.context";
 
 export default function MainHeader() {
 
@@ -34,7 +35,18 @@ export default function MainHeader() {
       <SearchBar />
       <HStack ml={4} mr={4} spacing={8}>
         <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
+        {useContext(AuthContext).user
+        ?
+        <>
+        
+        <Link as={NextLink} color={'fishPalette.white'}href="/profile">
+        <Text mb={-2} color={'fishPalette.gray'} fontSize={14}>Hello, {useContext(AuthContext).user?.firstName}</Text>
+        <Text color={'fishPalette.white'} as={'b'}>Account</Text>
+        </Link>
+        </>
+        :
         <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
+        }
         <Button as={NextLink} href={"/cart"}  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
       </HStack>
     </Flex>

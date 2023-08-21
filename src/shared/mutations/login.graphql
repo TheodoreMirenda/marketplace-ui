@@ -3,8 +3,13 @@ mutation login($data: LoginUserInput!) {
     access_token,
     expiresAt,
     user {
-      uuid
-      username
+      uuid,
+      username,
+      email,
+      type,
+      firstName,
+      lastName,
+      avatar
     }
   }
 }

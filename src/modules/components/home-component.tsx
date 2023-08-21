@@ -9,9 +9,10 @@ import {
   Role,
 } from "@src/shared/generated/graphql-schema";
 import DataCreator from "./create-data";
+import AuthContext from "@src/shared/contexts/auth.context";
 
 const HomeComponent: FC = () => {
-
+  console.log(useContext(AuthContext));
   const [fetchUser] = useUserLazyQuery({})
   const [fetchProduct] = useProductLazyQuery({})
   const [fetchCategory] = useCategoryLazyQuery({})
