@@ -18,11 +18,13 @@ import {
   ProductOrder,
 } from "@src/shared/generated/graphql-schema";
 
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { useRouter } from 'next/router'
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import CartModal from "./cart/cart-modal";
 import { useState, useEffect } from "react";
+import AuthContext from "@src/shared/contexts/auth.context";
+import CartContext from "@src/shared/contexts/cart.context";
 
 const ProductPageComponent: FC<Product> = (product) => {
 
@@ -30,6 +32,7 @@ const ProductPageComponent: FC<Product> = (product) => {
   const {isOpen: isOpenCart, onOpen: onOpenCart, onClose: onCloseCart} = useDisclosure();
   const [productOrder, setProductOrder] = useState<ProductOrder>({});
   const imgPath = '/img/'
+  const { addToCart, isLoading } = useContext(CartContext);
 
   const getImagePath = () => {
     if (product.images?.length > 0) {
@@ -41,6 +44,8 @@ const ProductPageComponent: FC<Product> = (product) => {
 
   useEffect(() => {
     if(!productOrder.product) return;
+    
+     addToCart(productOrder);
 
     onOpenCart();
   }, [productOrder]);

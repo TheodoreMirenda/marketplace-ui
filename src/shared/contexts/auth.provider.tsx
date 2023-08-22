@@ -9,6 +9,7 @@ import {
   useUserLazyQuery,
 } from "@src/shared/generated/graphql-schema";
 import { useRouter } from "next/router";
+
 import jwt from "jsonwebtoken";
 
 const AuthProvider: FC<{ children: any }> = ({ children }) => {

@@ -10,9 +10,12 @@ import {
 } from "@src/shared/generated/graphql-schema";
 import DataCreator from "./create-data";
 import AuthContext from "@src/shared/contexts/auth.context";
+import CartContext from "@src/shared/contexts/cart.context";
 
 const HomeComponent: FC = () => {
-  console.log(useContext(AuthContext));
+  // console.log(useContext(AuthContext));
+  // console.log(useContext(CartContext));
+
   const [fetchUser] = useUserLazyQuery({})
   const [fetchProduct] = useProductLazyQuery({})
   const [fetchCategory] = useCategoryLazyQuery({})

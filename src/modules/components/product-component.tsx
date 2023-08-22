@@ -3,31 +3,46 @@ import { Flex, VStack, Text, Image, Button, HStack, Link, border } from "@chakra
 import {
   Product,
 } from "@src/shared/generated/graphql-schema";
-import { FC } from "react";
+import { FC, useContext, useCallback } from "react";
 const imgPath = '/img/'
 import NextLink from 'next/link'
+import CartContext from "@src/shared/contexts/cart.context";
 
 const ProductComponent: FC<Product> = (product) => {
+
+  const { addToCart, isLoading } = useContext(CartContext);
+
+  const handleLinkClick = useCallback((e: any) => {    
+  }, []);
+  
+
+  const handleButtonClick = useCallback((e: any) => {
+    // e.stopPropagation();
+    e.preventDefault();
+    addToCart({product: product, quantity: 1})
+  }, []);
+
+
   return (
-      <Link as={NextLink} color={'fishPalette.white'}href={`/product/${product.uuid}`}>
+      <Link as={NextLink} color={'fishPalette.white'} href={`/product/${product.uuid}`} onClick={handleLinkClick }>
       <Flex
-    w={'250px'}
-    h={'375px'}
-    bg={'fishPalette.cyan'}
-    rounded={'lg'}
-    justify={'center'}
-    align={'top'}
-    boxShadow={'lg'}
-    outline={'4px solid'}
-    outlineColor={'fishPalette.green'}
-    _hover={
-      {
-        transform: 'scale(1.025)',
-        transition: 'transform .1s',
-        cursor: 'pointer',
-        outlineColor : 'fishPalette.gray'
-      }
-    }
+        w={'250px'}
+        h={'375px'}
+        bg={'fishPalette.cyan'}
+        rounded={'lg'}
+        justify={'center'}
+        align={'top'}
+        boxShadow={'lg'}
+        outline={'2px solid'}
+        outlineColor={'fishPalette.green'}
+        _hover={
+          {
+            transform: 'scale(1.025)',
+            transition: 'transform .1s',
+            cursor: 'pointer',
+            outlineColor : 'fishPalette.gray'
+          }
+        }
     >
       <VStack spacing={0} justifyContent={'left'}>
         <Image
@@ -57,9 +72,10 @@ const ProductComponent: FC<Product> = (product) => {
         fontSize={'sm'}
         color={'fishPalette.gray'}
         >{product.description}</Text>
-      <Button 
+      {/* <Button 
+        onClick={handleButtonClick}
             h={'30px'} w={'125px'}>
-              Add to Cart</Button>
+              Add to Cart</Button> */}
       </VStack>
     </Flex>
     </Link>

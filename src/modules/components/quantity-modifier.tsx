@@ -1,13 +1,9 @@
 "use client"
-import { Flex, VStack, Text, Image, Button, HStack, Link, border ,
+import { Flex, VStack, Text, Image, Button,
     NumberInput,
     NumberInputField,
-    NumberInputStepper,
-    NumberIncrementStepper,
-    NumberDecrementStepper,
-
 } from "@chakra-ui/react"
-import {Product,} from "@src/shared/generated/graphql-schema";
+import {useRef} from 'react';
 
 interface QuantityProps {
     quantity: number,
@@ -15,37 +11,37 @@ interface QuantityProps {
 }
 
 const QuantityModifier = ({quantity, changeAmount}: QuantityProps) => {
+
+
+  const handleChange = (value:string) => {
+    changeAmount(Number(value)-quantity);
+    quantity = Number(value);
+  }
+
   return (
       <Flex
-        w={'50px'}
+        w={'150px'}
         h={'25px'}
-        _hover={
-        {
-            transform: 'scale(1.025)',
-            transition: 'transform .1s',
+        _hover={ {
             cursor: 'pointer',
             outlineColor : 'fishPalette.gray'
-        }
-        }
-    >
-
+            }} 
+            >
         <Button 
-        mr={'5px'}
+            mr={'5px'}
             rounded={'full'}
-            onClick={() => changeAmount(-1)}
+            onClick={() => handleChange((quantity-1).toString())}
             h={'25px'} w={'25px'}>
          -</Button>
 
-            <NumberInput defaultValue={quantity} min={1} max={99} alignSelf={'center'}>
-                <NumberInputField />
-                <NumberInputStepper>
-                </NumberInputStepper>
-            </NumberInput>
+        <NumberInput value={quantity} size='md' maxW={16} max={99} defaultValue={quantity} alignSelf={'center'} onChange={handleChange}>
+            <NumberInputField alignSelf={'center'} padding={0} textAlign={'center'}/>
+        </NumberInput>
 
         <Button
         ml={'5px'}
         rounded={'full'}
-            onClick={() => changeAmount(1)}
+            onClick={() => handleChange((quantity+1).toString())}
             h={'25px'} w={'25px'}>
         +</Button>
     </Flex>

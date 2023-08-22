@@ -43,7 +43,7 @@ const MarketPlaceComponent: FC = () => {
     }
   }
   const handlePagination = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
   }
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const MarketPlaceComponent: FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log(products);
+    // console.log(products);
   }, [products]);
 
   return (

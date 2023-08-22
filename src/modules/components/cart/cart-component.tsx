@@ -1,9 +1,4 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, SimpleGrid,
-    GridItem,
-    Divider,
-    useDisclosure,
-
-} from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, SimpleGrid, GridItem,Divider, Input, } from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
@@ -15,48 +10,36 @@ import {
 } from "@src/shared/generated/graphql-schema";
 import { ProductOrder, Product, } from "@src/shared/generated/graphql-schema";
 import QuantityModifier from "@src/modules/components/quantity-modifier";
-
-  const demoCart: ProductOrder[] = [
-    {
-        productId: 1,
-        quantity: 1,
-    },
-    {
-        productId: 2,
-        quantity: 1,
-    },
-    {
-        productId: 3,
-        quantity: 2,
-    },
-]
+import CartContext from "@src/shared/contexts/cart.context";
+import { ArrowRightIcon } from "@chakra-ui/icons";
 
 const CartComponent: FC = () => {
 
-    const cart = demoCart;
-    const [fetchProduct] = useProductLazyQuery({})
+    const { cartItems, removeFromCart, getCartTotal, overrideCartItem } = useContext(CartContext);
+    const shippingCost = 29.99;
+    const [taxTotal, setTaxTotal] = useState<number>(0);
+    const [orderTotal, setOrderTotal] = useState<number>(0);
 
-    const getProduct = async (pId: number) => {
-        const product = await fetchProduct({
-          variables: {
-            where: {
-                id: pId
-            }}
-        });
-        return product.data?.Product as Product;
-    }
+    useEffect(() => {
+        console.log(cartItems);
+    }, [cartItems]);
 
+    useEffect(() => {
+        const tax = getCartTotal() * 0.06;
+        setTaxTotal(tax);
+        setOrderTotal(getCartTotal() + tax + shippingCost);
+    }, [cartItems]);
 
   return (
     <>
     <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'} >
         <Grid 
-        w={'100%'}
         templateColumns='repeat(8, 1fr)'
         gap={6}
         margin={25}
+        justifyContent={'center'}
         >
-         <GridItem colSpan={6}  >
+         <GridItem colSpan={6} maxW={'750px'} >
             <VStack>
                 <Text
                     as={'b'}
@@ -67,14 +50,14 @@ const CartComponent: FC = () => {
                 
                 <VStack w={'100%'} h={'100%'} 
                     rounded={'lg'} justify={'center'} align={'top'} boxShadow={'lg'} 
-                    outline={'4px solid'}
+                    outline={'2px solid'}
                     outlineColor={'fishPalette.green'}
                     >
                     <Flex
                     rounded={'lg'} 
                     justifyItems={'center'}  
                     boxShadow={'lg'} 
-                    outline={'4px solid'}
+                    outline={'2px solid'}
                     outlineColor={'fishPalette.green'}
                     roundedBottom={'none'}
                     bg={'fishPalette.cyan'} 
@@ -107,18 +90,15 @@ const CartComponent: FC = () => {
                     <GridItem colSpan={5} 
                     > <Divider/></GridItem>
 
-                    {cart.map((productOrder) => (
-                        <ShoppingCartItem productOrder={productOrder}/>
+                    {cartItems?.map((productOrder) => (
+                        <ShoppingCartItem productOrder={productOrder} overrideCartItem={overrideCartItem} removeFromCart={removeFromCart}/>
                     ))}
-
-
-
 
             <GridItem>
                 <Text
-                    fontSize={'sm'}
+                    fontSize={12}
                     alignSelf={'flex-start'}
-                    color={'fishPalette.gray'}
+                    color={'fishPalette.red'}
                     > Shipments may be delayed due to COVID-19</Text>
             </GridItem>
 
@@ -128,13 +108,15 @@ const CartComponent: FC = () => {
             </GridItem>
 
       <GridItem colSpan={2} 
+        mt={58}
         rounded={'lg'}
         boxShadow={'lg'}
         mr={25}
-        padding={10}
+        padding={4}
         opacity={0.9}
         outline={'2px solid'}
         outlineColor={'fishPalette.green'}
+        w={'250px'}
       >
         <VStack spacing={0} 
           alignItems={'left'}>
@@ -142,9 +124,9 @@ const CartComponent: FC = () => {
                 as={'b'}
                 fontSize={'2xl'}
                 alignSelf={'flex-start'}
-                marginBottom={4} 
                 > Order Summary </Text>
-            <Divider/>
+            <Divider mb={4} mt={4}/>
+            
             
             <HStack w={'100%'} justifyContent={'space-between'}>
             <Text
@@ -156,7 +138,7 @@ const CartComponent: FC = () => {
                 as={'b'}
                 fontSize={'lg'}
                 color={'fishPalette.gray'}
-                >$ </Text>
+                >$ {getCartTotal().toFixed(2)}</Text>
             </HStack>
             <HStack w={'100%'} justifyContent={'space-between'}>
             <Text
@@ -168,7 +150,7 @@ const CartComponent: FC = () => {
                 as={'i'}
                 fontSize={'lg'}
                 color={'fishPalette.gray'}
-                >$ </Text>
+                >$ {shippingCost.toFixed(2)}</Text>
             </HStack>
             <HStack w={'100%'} justifyContent={'space-between'}>
             <Text
@@ -181,29 +163,33 @@ const CartComponent: FC = () => {
                 as={'i'}
                 fontSize={'lg'}
                 color={'fishPalette.gray'}
-                >$ </Text>
+                >$ {taxTotal.toFixed(2)}</Text>
             </HStack>
-            <Divider/>
+            <Divider mb={4} mt={4}/>
             <HStack w={'100%'} justifyContent={'space-between'}>
             <Text
                 as={'b'}
                 fontSize={'lg'}
-                color={'fishPalette.gray'}
+                color={'fishPalette.white'}
                 >Order Total </Text>
 
             <Text
                 as={'b'}
                 fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >$ </Text>
+                color={'fishPalette.white'}
+                >$ {orderTotal.toFixed(2)}</Text>
             </HStack>
+            <Divider mb={4} mt={4}/>
 
-
-            <Divider/>
+            <Input placeholder='Enter promo code' mb={2} />
+            <Input placeholder='Enter gift certificate code' />
+            <Divider mb={4} mt={4}/>
             <Button
+                alignSelf={'center'}
                 mb={4}
-                h={'30px'} w={'125px'}>
-                Checkout</Button>
+                rightIcon={<ArrowRightIcon/>}
+                h={'60px'} w={'90%'}>
+                Proceed to Checkout</Button>
 
        
         </VStack>
@@ -218,13 +204,14 @@ const CartComponent: FC = () => {
 export default CartComponent;
 
 interface ShoppingCartItemProps {
-    productOrder: ProductOrder
+    productOrder: ProductOrder,
+    overrideCartItem: (productOrder: ProductOrder) => Promise<void>;
+    removeFromCart: (productOrder: ProductOrder) => Promise<void>;
 }
 
-export const ShoppingCartItem = ({productOrder}:ShoppingCartItemProps) => {
-    const [quantity, setQuantity] = useState<number>(productOrder.quantity!);
+export const ShoppingCartItem = ({productOrder, overrideCartItem, removeFromCart}:ShoppingCartItemProps) => {
     const changeAmount = (amount: number) => {
-        setQuantity(quantity + amount);
+        overrideCartItem({...productOrder, quantity: productOrder.quantity! + amount})
     }
     
     return (
@@ -266,6 +253,7 @@ export const ShoppingCartItem = ({productOrder}:ShoppingCartItemProps) => {
       </GridItem>
       <GridItem colSpan={1}>
             <Button 
+                onClick={() => removeFromCart(productOrder)}
                 variant={'ghost'}
                 h={'25px'} w={'25px'}>
                 X</Button>

@@ -5,6 +5,7 @@ import AuthProvider from '@src/shared/contexts/auth.provider'
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import {theme} from '@src/shared/theme/theme'
 import MainHeader from '@src/modules/components/layout/mainHeader'
+import CartProvider from '@src/shared/contexts/cart.provider'
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
@@ -16,8 +17,10 @@ export default function App({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}> 
       <ApolloProvider client={client}>
         <AuthProvider>
-          <MainHeader />
-          <Component {...pageProps} />
+          <CartProvider>
+            <MainHeader />
+            <Component {...pageProps} />
+          </CartProvider>
         </AuthProvider>
       </ApolloProvider>
     </ChakraProvider>
