@@ -13,7 +13,8 @@ const CartProvider: FC<{ children: any }> = ({ children }) => {
       if(cartItemsCached) {
         //check if there is allready a productOrder with the same product id
         const isItemInCart = cartItems.find((cartItem) => cartItem.product?.uuid === newItem.product?.uuid);
-        if (isItemInCart) {
+        
+        if (isItemInCart?.product?.uuid) {
           setCartItems(cartItems.map((cartItem) =>
               cartItem.product?.uuid === newItem.product?.uuid
                 ? { ...cartItem, quantity: cartItem.quantity! + newItem.quantity! }

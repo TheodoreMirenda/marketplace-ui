@@ -4,5 +4,6 @@ query Product($where: ProductWhereUniqueInput!) {
     description
     price
     images
+    uuid
   }
 }

@@ -44,14 +44,12 @@ const ProductPageComponent: FC<Product> = (product) => {
 
   useEffect(() => {
     if(!productOrder.product) return;
-    
-     addToCart(productOrder);
 
     onOpenCart();
   }, [productOrder]);
 
   const handleAddToCart = () => {
-    console.log('add to cart clicked');
+    addToCart({product: product, quantity: 1});
     setProductOrder({product: product, quantity: 1});
   }
 
@@ -80,11 +78,12 @@ const ProductPageComponent: FC<Product> = (product) => {
       >
       
         <GridItem colSpan={2} 
-        outline={'4px solid'}
+        outline={'2px solid'}
         outlineColor={'fishPalette.green'}
         rounded={'lg'}
         >
           <Image
+            rounded={'lg'}
             objectFit="cover"
             w={'100%'}
             h={'100%'}
@@ -102,7 +101,7 @@ const ProductPageComponent: FC<Product> = (product) => {
         mr={25}
         padding={10}
         opacity={0.9}
-        outline={'4px solid'}
+        outline={'2px solid'}
         outlineColor={'fishPalette.green'}
       >
         <VStack spacing={0} 

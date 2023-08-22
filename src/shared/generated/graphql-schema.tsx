@@ -411,7 +411,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', Product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string> } | null };
+export type ProductQuery = { __typename?: 'Query', Product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string>, uuid?: string | null } | null };
 
 export type ProductOrderQueryVariables = Exact<{
   where: ProductOrderWhereUniqueInput;
@@ -650,6 +650,7 @@ export const ProductDocument = gql`
     description
     price
     images
+    uuid
   }
 }
     `;

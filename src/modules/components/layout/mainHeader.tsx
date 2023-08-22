@@ -18,7 +18,7 @@ export default function MainHeader() {
   
   return (
     <>
-    <Flex mt={0} height={'50px'} bg={'fishPalette.cyan'} padding={0} justifyContent={'space-between'} align={'center'} >
+    <Flex mt={0} height={'50px'} bg={'fishPalette.darkBlue'} padding={0} justifyContent={'space-between'} align={'center'} >
       <HStack minW={'300px'}>
         <Image
           ml={2}
@@ -51,11 +51,11 @@ export default function MainHeader() {
       </HStack>
     </Flex>
 
-    <Flex mt={0} height={'40px'} bg={'fishPalette.green'} justifyContent={'left'} padding={0} >
+    <Flex mt={0} height={'30px'} bg={'fishPalette.cyan'} justifyContent={'left'} padding={0} >
       <Link 
-        as={NextLink} w='100px' h='40px' justifyContent='center' href="/marketplace"
-        pt={2}
-        bg= "fishPalette.green"
+        as={NextLink} w='75px' h='30px' justifyContent='center' href="/marketplace"
+        pt={1}
+        bg= "fishPalette.cyan"
         color= "white"
         _hover= {{
           bg:"fishPalette.gray",
@@ -65,32 +65,41 @@ export default function MainHeader() {
         verticalAlign={'center'}
         alignItems={'center'}
         textAlign={'center'}
-        fontSize={'lg'}
+        fontSize={'md'}
         rounded={'lg'}
+        textStyle={'b'}
         >
-        ALL</Link>
-        <Divider orientation="vertical" w={2}/>
+          <Text fontSize={14} as={'b'}>
+        ALL
+        </Text>
+        </Link>
+
+        <Divider orientation="vertical" />
+
       {categories?.map((category) => (
         <>
         <Link 
-        as={NextLink} w='100px' h='40px' justifyContent='center' href="/marketplace"
-        pt={2}
-        bg= "fishPalette.green"
-        color= "white"
-        _hover= {{
-          bg:"fishPalette.gray",
-          color:"black",
-          _disabled: { bg: "doenet.mainGrey" }
-        }}
-        verticalAlign={'center'}
-        alignItems={'center'}
-        textAlign={'center'}
-        fontSize={'lg'}
-        rounded={'lg'}
-        >
-        {category.name?.toUpperCase()}
+          as={NextLink} w='75px' h='30px' justifyContent='center' href="/marketplace"
+          pt={1}
+          bg= "fishPalette.cyan"
+          color= "white"
+          _hover= {{
+            bg:"fishPalette.gray",
+            color:"black",
+            _disabled: { bg: "doenet.mainGrey" }
+          }}
+          textAlign={'center'}
+          fontSize={'md'}
+          rounded={'lg'}
+          textStyle={'b'}
+          >
+          <Text fontSize={14} as={'b'}>
+
+          {category.name?.toUpperCase()}
+          </Text>
         </Link>
-        <Divider orientation="vertical" w={2}/>
+
+        <Divider orientation="vertical"/>
         </>
       ))}
     </Flex>

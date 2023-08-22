@@ -94,28 +94,16 @@ const HomeComponent: FC = () => {
             minH={'450px'}
             zIndex={-1}
             />
-          <SimpleGrid justifyItems={'center'} mt={'50'} mb={'100px'} columns={3} spacing={4}>
-            <Button>Sign Up</Button>
-
-            <Button
-              onClick={handleClick}
-              >Get User</Button>
-            <Button
-              onClick={handleLogin}
-              >Login</Button>
-            <Button
-              onClick={handleProduct}
-              >Get Product</Button>
-            <Button
-              onClick={handleCategory}
-              >Get Category</Button>
-            <Button
-              onClick={handleCreateUser}
-              >Create User</Button>
-            <DataCreator/>
-          </SimpleGrid>
+            <Text
+              as={'b'}
+              fontSize={'2xl'}
+              alignSelf={'flex-start'}
+              marginBottom={4} 
+              >  </Text>
+        
           </VStack>
       </Flex>
+      <DataCreator/>
     </>
   );
 };

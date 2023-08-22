@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, SimpleGrid, GridItem,Divider, Input, } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, useBreakpointValue, GridItem,Divider, Input, } from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
@@ -34,12 +34,13 @@ const CartComponent: FC = () => {
     <>
     <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'} >
         <Grid 
-        templateColumns='repeat(8, 1fr)'
+        templateColumns={{ base: 'repeat(1, 1fr)', lg: 'repeat(8, 1fr)' }}
         gap={6}
         margin={25}
         justifyContent={'center'}
+        justifyItems={'center'}
         >
-         <GridItem colSpan={6} maxW={'750px'} >
+        <GridItem colSpan={{ base: 1, lg: 6 }} maxW={'750px'} >
             <VStack>
                 <Text
                     as={'b'}
@@ -72,12 +73,13 @@ const CartComponent: FC = () => {
                         >
                         Shipment 1 of 1 - These items ship together </Text>
                 </Flex>
-                <Grid gridTemplateColumns={'1fr 75px 150px 75px 50px'} gap={6} padding={8}>
+                <Grid gridTemplateColumns={{base:'', lg:'1fr 75px 150px 75px 50px'}}
+                 gap={6} padding={8}>
                     <GridItem colSpan={1}  w='250px'
                     >Item </GridItem>
                     <GridItem colSpan={1} 
                         justifySelf={'center'}
-   
+
                     >Price </GridItem>
                     <GridItem colSpan={1} 
                         justifySelf={'center'}
@@ -105,96 +107,95 @@ const CartComponent: FC = () => {
                 </Grid>
                 </VStack>
             </VStack>
-            </GridItem>
+        </GridItem>
 
-      <GridItem colSpan={2} 
-        mt={58}
-        rounded={'lg'}
-        boxShadow={'lg'}
-        mr={25}
-        padding={4}
-        opacity={0.9}
-        outline={'2px solid'}
-        outlineColor={'fishPalette.green'}
-        w={'250px'}
-      >
-        <VStack spacing={0} 
-          alignItems={'left'}>
-            <Text
-                as={'b'}
-                fontSize={'2xl'}
-                alignSelf={'flex-start'}
-                > Order Summary </Text>
-            <Divider mb={4} mt={4}/>
-            
-            
-            <HStack w={'100%'} justifyContent={'space-between'}>
-            <Text
-                as={'b'}
-                fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >Product Total </Text>
-            <Text
-                as={'b'}
-                fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >$ {getCartTotal().toFixed(2)}</Text>
-            </HStack>
-            <HStack w={'100%'} justifyContent={'space-between'}>
-            <Text
-                as={'i'}
-                fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >Shipping </Text>
-            <Text
-                as={'i'}
-                fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >$ {shippingCost.toFixed(2)}</Text>
-            </HStack>
-            <HStack w={'100%'} justifyContent={'space-between'}>
-            <Text
-                as={'i'}
-                fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >Tax Total</Text>
+        <GridItem colSpan={{ base: 1, lg: 2 }} 
+            mt={{ base: 0, lg: 58 }}
+            rounded={'lg'}
+            boxShadow={'lg'}
+            mr={{ base: 0, lg: 25 }}
+            padding={4}
+            opacity={0.9}
+            outline={'2px solid'}
+            outlineColor={'fishPalette.green'}
+            w={{ base: '40%', lg: '250px' }}
+        >
+            <VStack spacing={0} 
+            alignItems={'left'}>
+                <Text
+                    as={'b'}
+                    fontSize={'2xl'}
+                    alignSelf={'flex-start'}
+                    > Order Summary </Text>
+                <Divider mb={4} mt={4}/>
+                
+                
+                <HStack w={'100%'} justifyContent={'space-between'}>
+                <Text
+                    as={'b'}
+                    fontSize={'lg'}
+                    color={'fishPalette.gray'}
+                    >Product Total </Text>
+                <Text
+                    as={'b'}
+                    fontSize={'lg'}
+                    color={'fishPalette.gray'}
+                    >$ {getCartTotal().toFixed(2)}</Text>
+                </HStack>
+                <HStack w={'100%'} justifyContent={'space-between'}>
+                <Text
+                    as={'i'}
+                    fontSize={'lg'}
+                    color={'fishPalette.gray'}
+                    >Shipping </Text>
+                <Text
+                    as={'i'}
+                    fontSize={'lg'}
+                    color={'fishPalette.gray'}
+                    >$ {shippingCost.toFixed(2)}</Text>
+                </HStack>
+                <HStack w={'100%'} justifyContent={'space-between'}>
+                <Text
+                    as={'i'}
+                    fontSize={'lg'}
+                    color={'fishPalette.gray'}
+                    >Tax Total</Text>
 
-            <Text
-                as={'i'}
-                fontSize={'lg'}
-                color={'fishPalette.gray'}
-                >$ {taxTotal.toFixed(2)}</Text>
-            </HStack>
-            <Divider mb={4} mt={4}/>
-            <HStack w={'100%'} justifyContent={'space-between'}>
-            <Text
-                as={'b'}
-                fontSize={'lg'}
-                color={'fishPalette.white'}
-                >Order Total </Text>
+                <Text
+                    as={'i'}
+                    fontSize={'lg'}
+                    color={'fishPalette.gray'}
+                    >$ {taxTotal.toFixed(2)}</Text>
+                </HStack>
+                <Divider mb={4} mt={4}/>
+                <HStack w={'100%'} justifyContent={'space-between'}>
+                <Text
+                    as={'b'}
+                    fontSize={'lg'}
+                    color={'fishPalette.white'}
+                    >Order Total </Text>
 
-            <Text
-                as={'b'}
-                fontSize={'lg'}
-                color={'fishPalette.white'}
-                >$ {orderTotal.toFixed(2)}</Text>
-            </HStack>
-            <Divider mb={4} mt={4}/>
+                <Text
+                    as={'b'}
+                    fontSize={'lg'}
+                    color={'fishPalette.white'}
+                    >$ {orderTotal.toFixed(2)}</Text>
+                </HStack>
+                <Divider mb={4} mt={4}/>
 
-            <Input placeholder='Enter promo code' mb={2} />
-            <Input placeholder='Enter gift certificate code' />
-            <Divider mb={4} mt={4}/>
-            <Button
-                alignSelf={'center'}
-                mb={4}
-                rightIcon={<ArrowRightIcon/>}
-                h={'60px'} w={'90%'}>
-                Proceed to Checkout</Button>
+                <Input placeholder='Enter promo code' mb={2} />
+                <Input placeholder='Enter gift certificate code' />
+                <Divider mb={4} mt={4}/>
+                <Button
+                    alignSelf={'center'}
+                    mb={4}
+                    rightIcon={<ArrowRightIcon/>}
+                    h={'60px'} w={'90%'}>
+                    Proceed to Checkout</Button>
 
-       
-        </VStack>
-      </GridItem>
- 
+        
+            </VStack>
+        </GridItem>
       </Grid>
       </Flex>
     </>
@@ -211,6 +212,11 @@ interface ShoppingCartItemProps {
 
 export const ShoppingCartItem = ({productOrder, overrideCartItem, removeFromCart}:ShoppingCartItemProps) => {
     const changeAmount = (amount: number) => {
+        if(productOrder.quantity! + amount <= 0) {
+            removeFromCart(productOrder);
+            return;
+        }
+        
         overrideCartItem({...productOrder, quantity: productOrder.quantity! + amount})
     }
     
