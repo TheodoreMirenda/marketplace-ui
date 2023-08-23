@@ -217,15 +217,24 @@ export type ProductWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
-  Product?: Maybe<Product>;
-  ProductOrder?: Maybe<ProductOrder>;
   categories: Array<Category>;
   category?: Maybe<Category>;
-  getProducts: Array<Product>;
-  getProductsAll: Array<Product>;
   order?: Maybe<Order>;
+  product?: Maybe<Product>;
+  productOrder?: Maybe<ProductOrder>;
+  products: Array<Product>;
   user?: Maybe<User>;
   vendor?: Maybe<VendorProduct>;
+};
+
+
+export type QueryCategoryArgs = {
+  where: CategoryWhereUniqueInput;
+};
+
+
+export type QueryOrderArgs = {
+  where: OrderWhereUniqueInput;
 };
 
 
@@ -239,18 +248,8 @@ export type QueryProductOrderArgs = {
 };
 
 
-export type QueryCategoryArgs = {
-  where: CategoryWhereUniqueInput;
-};
-
-
-export type QueryGetProductsArgs = {
+export type QueryProductsArgs = {
   where: ProductWhereInput;
-};
-
-
-export type QueryOrderArgs = {
-  where: OrderWhereUniqueInput;
 };
 
 
@@ -406,20 +405,6 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', uuid?: string | null, username?: string | null, email?: string | null, type?: Role | null, firstName?: string | null, lastName?: string | null, avatar?: string | null } } };
 
-export type ProductQueryVariables = Exact<{
-  where: ProductWhereUniqueInput;
-}>;
-
-
-export type ProductQuery = { __typename?: 'Query', Product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string>, uuid?: string | null } | null };
-
-export type ProductOrderQueryVariables = Exact<{
-  where: ProductOrderWhereUniqueInput;
-}>;
-
-
-export type ProductOrderQuery = { __typename?: 'Query', ProductOrder?: { __typename?: 'ProductOrder', productId?: number | null, orderId?: number | null } | null };
-
 export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -432,19 +417,33 @@ export type CategoryQueryVariables = Exact<{
 
 export type CategoryQuery = { __typename?: 'Query', category?: { __typename?: 'Category', name?: string | null } | null };
 
-export type GetProductsQueryVariables = Exact<{
-  where: ProductWhereInput;
-}>;
-
-
-export type GetProductsQuery = { __typename?: 'Query', getProducts: Array<{ __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string>, uuid?: string | null, category?: { __typename?: 'Category', name?: string | null } | null, vendorProduct?: { __typename?: 'VendorProduct', vendor?: { __typename?: 'Vendor', name?: string | null } | null } | null }> };
-
 export type OrderQueryVariables = Exact<{
   where: OrderWhereUniqueInput;
 }>;
 
 
 export type OrderQuery = { __typename?: 'Query', order?: { __typename?: 'Order', id?: number | null, user: { __typename?: 'User', id?: number | null, email?: string | null } } | null };
+
+export type ProductQueryVariables = Exact<{
+  where: ProductWhereUniqueInput;
+}>;
+
+
+export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string>, uuid?: string | null, category?: { __typename?: 'Category', name?: string | null } | null, vendorProduct?: { __typename?: 'VendorProduct', vendor?: { __typename?: 'Vendor', name?: string | null } | null } | null } | null };
+
+export type ProductOrderQueryVariables = Exact<{
+  where: ProductOrderWhereUniqueInput;
+}>;
+
+
+export type ProductOrderQuery = { __typename?: 'Query', productOrder?: { __typename?: 'ProductOrder', productId?: number | null, orderId?: number | null } | null };
+
+export type ProductsQueryVariables = Exact<{
+  where: ProductWhereInput;
+}>;
+
+
+export type ProductsQuery = { __typename?: 'Query', products: Array<{ __typename?: 'Product', name?: string | null, description?: string | null, price?: number | null, images: Array<string>, uuid?: string | null, category?: { __typename?: 'Category', name?: string | null } | null, vendorProduct?: { __typename?: 'VendorProduct', vendor?: { __typename?: 'Vendor', name?: string | null } | null } | null }> };
 
 export type SignupMutationVariables = Exact<{
   data: SignUpInput;
@@ -643,81 +642,6 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const ProductDocument = gql`
-    query Product($where: ProductWhereUniqueInput!) {
-  Product(where: $where) {
-    name
-    description
-    price
-    images
-    uuid
-  }
-}
-    `;
-
-/**
- * __useProductQuery__
- *
- * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProductQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
-      }
-export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
-        }
-export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
-export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
-export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
-export const ProductOrderDocument = gql`
-    query ProductOrder($where: ProductOrderWhereUniqueInput!) {
-  ProductOrder(where: $where) {
-    productId
-    orderId
-  }
-}
-    `;
-
-/**
- * __useProductOrderQuery__
- *
- * To run a query within a React component, call `useProductOrderQuery` and pass it any options that fit your needs.
- * When your component renders, `useProductOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProductOrderQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useProductOrderQuery(baseOptions: Apollo.QueryHookOptions<ProductOrderQuery, ProductOrderQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ProductOrderQuery, ProductOrderQueryVariables>(ProductOrderDocument, options);
-      }
-export function useProductOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductOrderQuery, ProductOrderQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ProductOrderQuery, ProductOrderQueryVariables>(ProductOrderDocument, options);
-        }
-export type ProductOrderQueryHookResult = ReturnType<typeof useProductOrderQuery>;
-export type ProductOrderLazyQueryHookResult = ReturnType<typeof useProductOrderLazyQuery>;
-export type ProductOrderQueryResult = Apollo.QueryResult<ProductOrderQuery, ProductOrderQueryVariables>;
 export const CategoriesDocument = gql`
     query categories {
   categories {
@@ -788,53 +712,6 @@ export function useCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<C
 export type CategoryQueryHookResult = ReturnType<typeof useCategoryQuery>;
 export type CategoryLazyQueryHookResult = ReturnType<typeof useCategoryLazyQuery>;
 export type CategoryQueryResult = Apollo.QueryResult<CategoryQuery, CategoryQueryVariables>;
-export const GetProductsDocument = gql`
-    query getProducts($where: ProductWhereInput!) {
-  getProducts(where: $where) {
-    name
-    description
-    price
-    images
-    uuid
-    category {
-      name
-    }
-    vendorProduct {
-      vendor {
-        name
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetProductsQuery__
- *
- * To run a query within a React component, call `useGetProductsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetProductsQuery({
- *   variables: {
- *      where: // value for 'where'
- *   },
- * });
- */
-export function useGetProductsQuery(baseOptions: Apollo.QueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-      }
-export function useGetProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetProductsQuery, GetProductsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, options);
-        }
-export type GetProductsQueryHookResult = ReturnType<typeof useGetProductsQuery>;
-export type GetProductsLazyQueryHookResult = ReturnType<typeof useGetProductsLazyQuery>;
-export type GetProductsQueryResult = Apollo.QueryResult<GetProductsQuery, GetProductsQueryVariables>;
 export const OrderDocument = gql`
     query order($where: OrderWhereUniqueInput!) {
   order(where: $where) {
@@ -874,6 +751,136 @@ export function useOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Orde
 export type OrderQueryHookResult = ReturnType<typeof useOrderQuery>;
 export type OrderLazyQueryHookResult = ReturnType<typeof useOrderLazyQuery>;
 export type OrderQueryResult = Apollo.QueryResult<OrderQuery, OrderQueryVariables>;
+export const ProductDocument = gql`
+    query product($where: ProductWhereUniqueInput!) {
+  product(where: $where) {
+    name
+    description
+    price
+    images
+    uuid
+    category {
+      name
+    }
+    vendorProduct {
+      vendor {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useProductQuery__
+ *
+ * To run a query within a React component, call `useProductQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useProductQuery(baseOptions: Apollo.QueryHookOptions<ProductQuery, ProductQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+      }
+export function useProductLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductQuery, ProductQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductQuery, ProductQueryVariables>(ProductDocument, options);
+        }
+export type ProductQueryHookResult = ReturnType<typeof useProductQuery>;
+export type ProductLazyQueryHookResult = ReturnType<typeof useProductLazyQuery>;
+export type ProductQueryResult = Apollo.QueryResult<ProductQuery, ProductQueryVariables>;
+export const ProductOrderDocument = gql`
+    query productOrder($where: ProductOrderWhereUniqueInput!) {
+  productOrder(where: $where) {
+    productId
+    orderId
+  }
+}
+    `;
+
+/**
+ * __useProductOrderQuery__
+ *
+ * To run a query within a React component, call `useProductOrderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductOrderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductOrderQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useProductOrderQuery(baseOptions: Apollo.QueryHookOptions<ProductOrderQuery, ProductOrderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductOrderQuery, ProductOrderQueryVariables>(ProductOrderDocument, options);
+      }
+export function useProductOrderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductOrderQuery, ProductOrderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductOrderQuery, ProductOrderQueryVariables>(ProductOrderDocument, options);
+        }
+export type ProductOrderQueryHookResult = ReturnType<typeof useProductOrderQuery>;
+export type ProductOrderLazyQueryHookResult = ReturnType<typeof useProductOrderLazyQuery>;
+export type ProductOrderQueryResult = Apollo.QueryResult<ProductOrderQuery, ProductOrderQueryVariables>;
+export const ProductsDocument = gql`
+    query products($where: ProductWhereInput!) {
+  products(where: $where) {
+    name
+    description
+    price
+    images
+    uuid
+    category {
+      name
+    }
+    vendorProduct {
+      vendor {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useProductsQuery__
+ *
+ * To run a query within a React component, call `useProductsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProductsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProductsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useProductsQuery(baseOptions: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+      }
+export function useProductsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
+        }
+export type ProductsQueryHookResult = ReturnType<typeof useProductsQuery>;
+export type ProductsLazyQueryHookResult = ReturnType<typeof useProductsLazyQuery>;
+export type ProductsQueryResult = Apollo.QueryResult<ProductsQuery, ProductsQueryVariables>;
 export const SignupDocument = gql`
     mutation signup($data: SignUpInput!) {
   signup(data: $data) {

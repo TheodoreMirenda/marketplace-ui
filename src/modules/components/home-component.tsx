@@ -53,19 +53,6 @@ const HomeComponent: FC = () => {
     });
     console.log(info.data);
   }
-
-  const handleLogin = async () => {
-    console.log('login clicked');
-    const stuff = await login({
-      variables:{
-        data: {
-          email: 'tjm3@gmail.com',
-          password: '12345678910'
-        }
-      }
-    }); 
-    console.log(stuff);
-  }
   const handleCreateUser = async () => {
     const stuff = await createUser({
       variables:{
@@ -100,6 +87,10 @@ const HomeComponent: FC = () => {
               alignSelf={'flex-start'}
               marginBottom={4} 
               >  </Text>
+              {/* <Button
+                alignSelf={'flex-start'}
+                onClick={createProducts}
+                >create</Button> */}
         
           </VStack>
       </Flex>

@@ -3,14 +3,14 @@ import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
   useCategoriesQuery,
-  useGetProductsLazyQuery,
+  useProductsLazyQuery,
   Product,
 } from "@src/shared/generated/graphql-schema";
 import ProductComponent from './product-component';
 
 const MarketPlaceComponent: FC = () => {
 
-  const [fetchProducts2] = useGetProductsLazyQuery({})
+  const [fetchProducts] = useProductsLazyQuery({})
   const [products, setProducts] = useState<Product[]>([]);
   const [login] = useLoginMutation({})
   const fetchCategory = useCategoriesQuery({})
@@ -18,22 +18,22 @@ const MarketPlaceComponent: FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const getAllProducts = async () => {
-    const products = await fetchProducts2({
+    const products = await fetchProducts({
       variables: {
         where: {
         }}
     });
-    setProducts(products.data?.getProducts as Product[]);
+    setProducts(products.data?.products as Product[]);
   }
 
   const getProductByCategory = async (categoryIdVariable : number) => {
-    const products = await fetchProducts2({
+    const products = await fetchProducts({
       variables: {
         where: {
           categoryId : categoryIdVariable
         }}
     });
-    setProducts(products.data?.getProducts as Product[]);
+    setProducts(products.data?.products as Product[]);
   }
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === "All") {

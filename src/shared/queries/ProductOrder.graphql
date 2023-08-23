@@ -1,5 +1,5 @@
-query ProductOrder($where: ProductOrderWhereUniqueInput !) {
-  ProductOrder(where: $where) {
+query productOrder($where: ProductOrderWhereUniqueInput !) {
+  productOrder(where: $where) {
     productId
     orderId
   }

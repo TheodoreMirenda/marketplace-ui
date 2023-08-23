@@ -29,7 +29,7 @@ const DataCreator: FC = () => {
     {
       name:"Java Fern",
       description:"A Thin Leafed Plant",
-      price: 10,
+      price: 7.99,
       quantity: 10,
       vendorId:1,
       categoryId: 1,
@@ -37,17 +37,17 @@ const DataCreator: FC = () => {
     },
     {
       name:"Moss Ball",
-      description:"A Ball of Moss",
-      price: 10,
+      description:"The Moss Ball is a spongy velvet like green algae ball that in the wild is found around Japan and Northern Europe",
+      price: 8.50,
       quantity: 10,
       vendorId:1,
       categoryId: 1,
       images: ["mossball.jpg"]
     },
     {
-      name:"Betta Fish",
-      description:"A nice fish",
-      price: 20,
+      name:"Twin Tail Betta",
+      description:"This variety of Betta has a striking, elaborate tail that differentiates it from other Bettas. The Twin Tail has a split tail, almost giving the suggestion of having two tails.",
+      price: 19.99,
       quantity: 12,
       vendorId:1,
       categoryId: 2,
@@ -55,12 +55,30 @@ const DataCreator: FC = () => {
     },
     {
       name:"Neon Tetra",
-      description:"A flahsy fish",
-      price: 5,
+      description:"The Neon Tetra is often described as the jewel of the aquarium hobby. It is easy to see why it is one of the most popular freshwater tropical fish.",
+      price: 4.99,
       quantity: 5,
       vendorId:1,
       categoryId: 2,
       images: ["neonTetra.jpg"]
+    },
+    {
+      name:"Red Wag Platy",
+      description:"A sporty two-tone variety of Xiphophorus maculatus Platy.",
+      price: 3.99,
+      quantity: 5,
+      vendorId:1,
+      categoryId: 2,
+      images: ["Red_Wag_Platy.jpg"]
+    },
+    {
+      name:"Rosy Barb",
+      description:"The Rosy Barb is one of the larger Barbs that can grow up to 6 inches in the wild. The male is red and gold with black spots near the rear and at the dorsal fin. The female lacks the red color and is mostly golden.",
+      price: 13.99,
+      quantity: 5,
+      vendorId:1,
+      categoryId: 2,
+      images: ["Rosy_Barb.jpg"]
     }
   ]
 
@@ -69,7 +87,7 @@ const DataCreator: FC = () => {
       await createCategory({
         variables:{
           data: {
-            name: "plant"
+            name: "Plant"
           }
         }
       })
@@ -78,7 +96,7 @@ const DataCreator: FC = () => {
       await createCategory({
         variables:{
           data: {
-            name: "fish"
+            name: "Fish"
           }
         }
       })
@@ -94,8 +112,7 @@ const DataCreator: FC = () => {
     // }
 
     VendorProductsToCreate.forEach(async (product) => {
-
-    const vendorProductCreated = await createVendorProduct({
+      let vendorProductCreated = await createVendorProduct({
       variables:{
         data: {
           name: product.name,
@@ -108,7 +125,8 @@ const DataCreator: FC = () => {
 
     if(vendorProductCreated?.data?.createVendorProduct?.id){
       console.log('vendor product created');
-      const productCreated = await createProduct({
+        console.log(vendorProductCreated?.data?.createVendorProduct?.id);
+        let productCreated = await createProduct({
         variables:{
           data: {
             name: product.name,
@@ -116,7 +134,7 @@ const DataCreator: FC = () => {
             price: product.price,
             vendorProduct: { connect: { id: vendorProductCreated?.data?.createVendorProduct?.id }},
             category: { connect: { id: product.categoryId } },
-            images: []
+            images: [product.images[0]]
           }
         }
       })

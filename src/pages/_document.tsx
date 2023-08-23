@@ -7,7 +7,6 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="shortcut icon" href="/img/fishStoreLogo.png" />
-        <title>The Fish Store</title>
       </Head>
       <body>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />

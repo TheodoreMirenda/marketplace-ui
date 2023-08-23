@@ -7,6 +7,7 @@ import { FC, useContext, useCallback } from "react";
 const imgPath = '/img/'
 import NextLink from 'next/link'
 import CartContext from "@src/shared/contexts/cart.context";
+import { StarIcon } from "@chakra-ui/icons";
 
 const ProductComponent: FC<Product> = (product) => {
 
@@ -44,34 +45,58 @@ const ProductComponent: FC<Product> = (product) => {
           }
         }
     >
-      <VStack spacing={0} justifyContent={'left'}>
+      <VStack spacing={0} padding={2} align={'left'}
+      alignContent={'left'}
+      >
         <Image
-          mt={'12.5px'}
-          boxSize="225px"
+          mt={'6px'}
+          h={'200px'}
+          w={'225px'}
           objectFit="cover"
           bg={'fishPalette.gray'}
           fallbackSrc='https://via.placeholder.com/225'
           src={imgPath + product.images[0]}
           rounded={'lg'}
+          alignSelf={'center'}
         />
+
+        <HStack justifyContent={'space-between'} mr={1}>
       <Text
         as={'b'}
-        fontSize={'lg'}
+        fontSize={'xl'}
         color={'fishPalette.white'}
+        textAlign={'left'}
+        alignSelf={'left'}
+        align={'left'}
         >{product.name}</Text>
-        <HStack>
+        <HStack spacing={0}>
+          <StarIcon w={3} color={'yellow'} />
+          <StarIcon w={3} color={'yellow'} />
+          <StarIcon w={3} color={'yellow'} />
+          <StarIcon w={3} color={'yellow'} />
+          <StarIcon w={3} color={'yellow'} />
+        </HStack>
+        </HStack>
+
+        <Text
+        as={'i'}
+        fontSize={'sm'}
+        color={'fishPalette.gray'}
+        h={'65px'}
+        >{product.description?.substring(0, 100)}{product.description?.length! > 100 ? "..." : ""}</Text>
+
           <Text
             as={'b'}
             fontSize={'lg'}
             color={'fishPalette.white'}
             >${product.price?.toFixed(2)}</Text>
-          
-        </HStack>
+
       <Text
         as={'i'}
         fontSize={'sm'}
         color={'fishPalette.gray'}
-        >{product.description}</Text>
+        >Sold by {product.vendorProduct?.vendor?.name}</Text>
+      
       {/* <Button 
         onClick={handleButtonClick}
             h={'30px'} w={'125px'}>

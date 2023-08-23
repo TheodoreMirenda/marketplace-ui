@@ -6,14 +6,17 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import {theme} from '@src/shared/theme/theme'
 import MainHeader from '@src/modules/components/layout/mainHeader'
 import CartProvider from '@src/shared/contexts/cart.provider'
+import {client} from '@src/shared/config/apollo.config'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }: AppProps) {
-  const client = new ApolloClient({
-    uri: 'http://localhost:8080/graphql',
-    cache: new InMemoryCache(),
-  });
   
   return (
+    <>
+    <Head>
+        <link rel="shortcut icon" href="/img/fishStoreLogo.png" />
+        <title>The Fish Store</title>
+      </Head>
     <ChakraProvider theme={theme}> 
       <ApolloProvider client={client}>
         <AuthProvider>
@@ -24,5 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
         </AuthProvider>
       </ApolloProvider>
     </ChakraProvider>
+    </>
+
   )
 }

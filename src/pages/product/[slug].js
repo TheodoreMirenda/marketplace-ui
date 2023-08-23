@@ -12,7 +12,7 @@ const fetchProduct = useProductQuery({
 }) 
 console.log(fetchProduct)
   return (
-    <ProductPageComponent {...fetchProduct?.data?.Product}/>
+    <ProductPageComponent {...fetchProduct?.data?.product}/>
   );
 }
 

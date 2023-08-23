@@ -28,6 +28,8 @@ import CartContext from "@src/shared/contexts/cart.context";
 
 const ProductPageComponent: FC<Product> = (product) => {
 
+  console.log(product);
+
   const router = useRouter()
   const {isOpen: isOpenCart, onOpen: onOpenCart, onClose: onCloseCart} = useDisclosure();
   const [productOrder, setProductOrder] = useState<ProductOrder>({});
