@@ -1,0 +1,8 @@
+mutation userUpdate($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
+  userUpdate(where: $where, data: $data) {
+    firstName
+    lastName
+    email
+    id
+  }
+}

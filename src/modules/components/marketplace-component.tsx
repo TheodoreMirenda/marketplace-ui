@@ -42,7 +42,7 @@ const MarketPlaceComponent: FC = () => {
   }
 
   useEffect(() => {
-    getProducts();
+    getProducts(); 
   }, [orderByFiler, categoryFilter]);
 
   useEffect(() => {

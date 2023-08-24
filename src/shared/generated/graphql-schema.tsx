@@ -65,6 +65,7 @@ export type Mutation = {
   createVendorProduct: VendorProduct;
   login: LoginOutput;
   signup: User;
+  userUpdate: User;
 };
 
 
@@ -110,6 +111,12 @@ export type MutationLoginArgs = {
 
 export type MutationSignupArgs = {
   data: SignUpInput;
+};
+
+
+export type MutationUserUpdateArgs = {
+  data: UserUpdateInput;
+  where: UserWhereUniqueInput;
 };
 
 export type Order = {
@@ -318,6 +325,16 @@ export type UserCreateNestedOneWithoutVendorInput = {
   connect: UserWhereUniqueInput;
 };
 
+export type UserUpdateInput = {
+  avatar?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Role>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type UserWhereUniqueInput = {
   email?: InputMaybe<Scalars['String']>;
   username?: InputMaybe<Scalars['String']>;
@@ -415,6 +432,14 @@ export type LoginMutationVariables = Exact<{
 
 
 export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginOutput', access_token: string, expiresAt: any, user: { __typename?: 'User', uuid?: string | null, username?: string | null, email?: string | null, type?: Role | null, firstName?: string | null, lastName?: string | null, avatar?: string | null } } };
+
+export type UserUpdateMutationVariables = Exact<{
+  where: UserWhereUniqueInput;
+  data: UserUpdateInput;
+}>;
+
+
+export type UserUpdateMutation = { __typename?: 'Mutation', userUpdate: { __typename?: 'User', firstName?: string | null, lastName?: string | null, email?: string | null, id?: number | null } };
 
 export type CategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -654,6 +679,43 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const UserUpdateDocument = gql`
+    mutation userUpdate($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
+  userUpdate(where: $where, data: $data) {
+    firstName
+    lastName
+    email
+    id
+  }
+}
+    `;
+export type UserUpdateMutationFn = Apollo.MutationFunction<UserUpdateMutation, UserUpdateMutationVariables>;
+
+/**
+ * __useUserUpdateMutation__
+ *
+ * To run a mutation, you first call `useUserUpdateMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUserUpdateMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [userUpdateMutation, { data, loading, error }] = useUserUpdateMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUserUpdateMutation(baseOptions?: Apollo.MutationHookOptions<UserUpdateMutation, UserUpdateMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UserUpdateMutation, UserUpdateMutationVariables>(UserUpdateDocument, options);
+      }
+export type UserUpdateMutationHookResult = ReturnType<typeof useUserUpdateMutation>;
+export type UserUpdateMutationResult = Apollo.MutationResult<UserUpdateMutation>;
+export type UserUpdateMutationOptions = Apollo.BaseMutationOptions<UserUpdateMutation, UserUpdateMutationVariables>;
 export const CategoriesDocument = gql`
     query categories {
   categories {

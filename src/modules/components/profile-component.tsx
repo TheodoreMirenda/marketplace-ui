@@ -1,35 +1,59 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, SimpleGrid} from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, SimpleGrid, Input} from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
-  useLoginMutation, 
   useUserLazyQuery,
-  useProductLazyQuery,
-  useCategoryLazyQuery,
-  useCreateUserMutation,
-  Role,
+  useUserUpdateMutation,
 } from "@src/shared/generated/graphql-schema";
-import DataCreator from "./create-data";
 import AuthContext from "@src/shared/contexts/auth.context";
+import { UserUpdateInput } from "@src/shared/generated/graphql-schema";
+import {ApolloError} from '@apollo/client';
+import { onError } from "@apollo/client/link/error";
 
 const ProfileComponent: FC = () => {
-  console.log(useContext(AuthContext));
+  // console.log(useContext(AuthContext));
   const userContext = useContext(AuthContext)?.user;
-  const [fetchUser] = useUserLazyQuery({})
-  const [fetchProduct] = useProductLazyQuery({})
-  const [fetchCategory] = useCategoryLazyQuery({})
+  const [userUpdate] = useUserUpdateMutation({})
+  const [data, setData] = useState<UserUpdateInput>({});
+  const [handleUserNameField, setHandleUserNameField] = useState(userContext?.username);
 
-  const [login] = useLoginMutation({})
-  const [createUser] = useCreateUserMutation({})
 
   const handleClick = async () => {
-    const info = await fetchUser({
-      variables: {
-        where: {
-          email: 'tjm3@gmail.com'
-        }
+    const userUpdateInput : UserUpdateInput = {};
+    //get input with the id of the title
+    const username = (document.getElementById('UserName') as HTMLInputElement).value;
+    if(username !== userContext.username) {
+      userUpdateInput.username = username;
+    }
+    const firstName = (document.getElementById('First Name') as HTMLInputElement).value;
+    if(firstName !== userContext.firstName) {
+      userUpdateInput.firstName = firstName;
+    }
+    const lastName = (document.getElementById('Last Name') as HTMLInputElement).value;
+    if(lastName !== userContext.lastName) {
+      userUpdateInput.lastName = lastName;
+    }
+    const email = (document.getElementById('Email') as HTMLInputElement).value;
+    if(email !== userContext.email) {
+      userUpdateInput.email = email;
+    }
+    const password = (document.getElementById('Password') as HTMLInputElement).value;
+    if(password !== "") {
+      userUpdateInput.password = password;
+    }
+
+    try{
+      const info = await userUpdate({
+        variables: {
+          where: {uuid: userContext.uuid},
+          data: userUpdateInput
+        }});
+        console.log(info);
+        window.location.reload();
       }
-    });
-    console.log(info.data?.user?.email);
+      catch(error) {
+        console.log(error);
+        // console.log(error.extensions.response.message);
+      }
   }
   return (
     <>
@@ -60,10 +84,14 @@ const ProfileComponent: FC = () => {
                 boxSize="200px"
                 objectFit="cover"
                 />
+              <ProfileBlock title={'UserName'} info={userContext.username}/>
               <ProfileBlock title={'First Name'} info={userContext.firstName}/>
               <ProfileBlock title={'Last Name'} info={userContext.lastName}/>
               <ProfileBlock title={'Email'} info={userContext.email}/>
-              <ProfileBlock title={'Password'} info={"********"}/>
+              <ProfileBlock title={'Password'} info={userContext.password}/>
+              <Button
+                onClick={handleClick}
+              >Save</Button>
             </VStack>
           </VStack>
       </Flex>
@@ -75,10 +103,14 @@ const ProfileComponent: FC = () => {
 export default ProfileComponent;
 
 const ProfileBlock = ({title, info}:{title:string, info:string}) => {
+  
+  const [value, setValue] = useState(info)
+  const handleChange = (event: any) => setValue(event.target.value)
+  
   return (
     <VStack align={'left'} spacing={0}>
       <Text fontSize={18} as={'b'}>{title}:</Text>
-      <Text fontSize={16} >{info}</Text>
+      <Input onChange={handleChange} id={title} type={title==='Password' ? 'password' : 'text' } fontSize={16} defaultValue={info} value={value}></Input>
     </VStack>
   )
 }
