@@ -4,7 +4,6 @@ import {
   Product,
 } from "@src/shared/generated/graphql-schema";
 import { FC, useContext, useCallback } from "react";
-const imgPath = '/img/'
 import NextLink from 'next/link'
 import CartContext from "@src/shared/contexts/cart.context";
 import { StarIcon } from "@chakra-ui/icons";
@@ -12,6 +11,7 @@ import { StarIcon } from "@chakra-ui/icons";
 const ProductComponent: FC<Product> = (product) => {
 
   const { addToCart, isLoading } = useContext(CartContext);
+  const imgPath = 'img/'
 
   const handleLinkClick = useCallback((e: any) => {    
   }, []);

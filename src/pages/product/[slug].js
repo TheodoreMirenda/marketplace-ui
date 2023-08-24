@@ -10,7 +10,7 @@ const fetchProduct = useProductQuery({
             uuid: slug,
     }},
 }) 
-console.log(fetchProduct)
+// console.log(fetchProduct)
   return (
     <ProductPageComponent {...fetchProduct?.data?.product}/>
   );

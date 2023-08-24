@@ -24,31 +24,32 @@ export default function MainHeader() {
           ml={2}
           boxSize="45px"
           objectFit="cover"
-          src='/img/fishStoreLogo.png'
+          src= '/TheFishStore/img/fishStoreLogo.png'
           />
-          <Link href="/">
+          <Link as={NextLink} href="/">
             <Text fontSize="32" as='b' textColor="fishPalette.white" ml={2} marginTop={'auto'}>
               TheFishStore
             </Text>
           </Link>
       </HStack>
+
       <SearchBar />
+
       <HStack ml={4} mr={4} spacing={8}>
         <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
-        {useContext(AuthContext).user
-        ?
-        <>
-        
-        <Link as={NextLink} color={'fishPalette.white'}href="/profile">
-        <Text mb={-2} color={'fishPalette.gray'} fontSize={14}>Hello, {useContext(AuthContext).user?.firstName}</Text>
-        <Text color={'fishPalette.white'} as={'b'}>Account</Text>
-        </Link>
-        </>
-        :
-        <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
+        {useContext(AuthContext).user ?
+          <>
+            <Link as={NextLink} color={'fishPalette.white'}href="/profile">
+              <Text mb={-2} color={'fishPalette.gray'} fontSize={14}>Hello, {useContext(AuthContext).user?.firstName}</Text>
+              <Text color={'fishPalette.white'} as={'b'}>Account</Text>
+            </Link>
+          </> : <>
+            <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
+          </>
         }
         <Button as={NextLink} href={"/cart"}  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
       </HStack>
+      
     </Flex>
 
     <Flex mt={0} height={'30px'} bg={'fishPalette.cyan'} justifyContent={'left'} padding={0} >
@@ -70,8 +71,8 @@ export default function MainHeader() {
         textStyle={'b'}
         >
           <Text fontSize={14} as={'b'}>
-        ALL
-        </Text>
+            ALL
+          </Text>
         </Link>
 
         <Divider orientation="vertical" />
@@ -79,6 +80,7 @@ export default function MainHeader() {
       {categories?.map((category) => (
         <>
         <Link 
+          key={category.id}
           as={NextLink} w='75px' h='30px' justifyContent='center' href="/marketplace"
           pt={1}
           bg= "fishPalette.cyan"
@@ -94,11 +96,9 @@ export default function MainHeader() {
           textStyle={'b'}
           >
           <Text fontSize={14} as={'b'}>
-
-          {category.name?.toUpperCase()}
+            {category.name?.toUpperCase()}
           </Text>
         </Link>
-
         <Divider orientation="vertical"/>
         </>
       ))}

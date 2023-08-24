@@ -27,13 +27,11 @@ import AuthContext from "@src/shared/contexts/auth.context";
 import CartContext from "@src/shared/contexts/cart.context";
 
 const ProductPageComponent: FC<Product> = (product) => {
-
-  console.log(product);
-
+  // console.log(product);
   const router = useRouter()
   const {isOpen: isOpenCart, onOpen: onOpenCart, onClose: onCloseCart} = useDisclosure();
   const [productOrder, setProductOrder] = useState<ProductOrder>({});
-  const imgPath = '/img/'
+  const imgPath = '/TheFishStore/img/'
   const { addToCart, isLoading } = useContext(CartContext);
 
   const getImagePath = () => {
@@ -60,7 +58,7 @@ const ProductPageComponent: FC<Product> = (product) => {
     <CartModal isOpen={isOpenCart} onClose={onCloseCart} productOrder={productOrder} />
     <Image
         position={'absolute'}
-        src='/img/fishTank.jpg'
+        src='/TheFishStore/img/fishTank.jpg'
         minH={'450px'}
         zIndex={-1}
         opacity={0.25}

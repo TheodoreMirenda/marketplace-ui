@@ -23,7 +23,7 @@ import {
   Product, ProductOrder,
 } from "@src/shared/generated/graphql-schema";
 import { FC } from "react";
-const imgPath = '/img/'
+const imgPath = 'img/'
 import NextLink from 'next/link'
 import { useEffect } from "react";
 import { ArrowForwardIcon, ArrowBackIcon } from "@chakra-ui/icons";

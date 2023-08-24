@@ -24,7 +24,7 @@ const LoginComponent: FC = () => {
     const onSubmit = async () =>{
         // console.log('onSubmit');
         // const loginResp = await login(values.email, values.password);
-        const loginResp = await login("tjm3@gmail.com", "12345678910");
+        const loginResp = await login("tjmirenda3@gmail.com", "12345678910");
         // console.log(loginResp);
     }
 

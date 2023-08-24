@@ -76,7 +76,7 @@ const HomeComponent: FC = () => {
           <VStack minH={'1000px'}>
           <Image
             position={'absolute'}
-            src='/img/fishTank.jpg'
+            src='/TheFishStore/img/fishTank.jpg'
             opacity={0.25}
             minH={'450px'}
             zIndex={-1}

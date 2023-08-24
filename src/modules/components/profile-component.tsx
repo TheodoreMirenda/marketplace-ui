@@ -6,8 +6,7 @@ import {
 } from "@src/shared/generated/graphql-schema";
 import AuthContext from "@src/shared/contexts/auth.context";
 import { UserUpdateInput } from "@src/shared/generated/graphql-schema";
-import {ApolloError} from '@apollo/client';
-import { onError } from "@apollo/client/link/error";
+import { toast } from "react-toastify";
 
 const ProfileComponent: FC = () => {
   // console.log(useContext(AuthContext));
@@ -48,10 +47,12 @@ const ProfileComponent: FC = () => {
           data: userUpdateInput
         }});
         console.log(info);
-        window.location.reload();
+        toast.success("Profile Updated");
+        // window.location.reload();
       }
-      catch(error) {
+      catch(error : any) {
         console.log(error);
+        toast.error(error?.message)
         // console.log(error.extensions.response.message);
       }
   }
@@ -64,7 +65,7 @@ const ProfileComponent: FC = () => {
               <Text fontSize={32} as={'b'}>Profile</Text>
           <Image
             position={'absolute'}
-            src='/img/fishTank.jpg'
+            src='img/fishTank.jpg'
             opacity={0.25}
             minH={'450px'}
             zIndex={-1}
@@ -80,10 +81,10 @@ const ProfileComponent: FC = () => {
               outline={'4px solid'}
               outlineColor={'fishPalette.green'}
             >
-              <Image
+              {/* <Image
                 boxSize="200px"
                 objectFit="cover"
-                />
+                /> */}
               <ProfileBlock title={'UserName'} info={userContext.username}/>
               <ProfileBlock title={'First Name'} info={userContext.firstName}/>
               <ProfileBlock title={'Last Name'} info={userContext.lastName}/>
@@ -110,7 +111,8 @@ const ProfileBlock = ({title, info}:{title:string, info:string}) => {
   return (
     <VStack align={'left'} spacing={0}>
       <Text fontSize={18} as={'b'}>{title}:</Text>
-      <Input onChange={handleChange} id={title} type={title==='Password' ? 'password' : 'text' } fontSize={16} defaultValue={info} value={value}></Input>
+      <Input onChange={handleChange} id={title} type={title==='Password' ? 'password' : 'text' } 
+        fontSize={16} value={value}></Input>
     </VStack>
   )
 }

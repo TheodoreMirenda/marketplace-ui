@@ -53,7 +53,7 @@ const MarketPlaceComponent: FC = () => {
     <>
       <Image
         position={'absolute'}
-        src='/img/fishTank.jpg'
+        src='img/fishTank.jpg'
         minH={'450px'}
         zIndex={-1}
         opacity={0.25}
@@ -82,9 +82,9 @@ const MarketPlaceComponent: FC = () => {
               rounded={'lg'}
               boxShadow={'lg'}
               onChange={(e) => { handleSelectChange(e) }} >
-                <option value="All">All</option>
+                <option key='all'  value="All">All</option>
                   {fetchCategory.data?.categories?.map((category) => (
-                      <option value={category.id!}> {category.name}</option>
+                      <option key={category.id} value={category.id!}> {category.name}</option>
                     ))}
               </Select>
             </VStack>
