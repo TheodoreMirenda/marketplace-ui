@@ -124,6 +124,11 @@ export type Order = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export enum OrderByArg {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
 export type OrderCreateInput = {
   productOrders: ProductOrderCreateNestedManyWithoutOrderInput;
 };
@@ -179,6 +184,11 @@ export type ProductOrder = {
   product?: Maybe<Product>;
   productId?: Maybe<Scalars['Float']>;
   quantity?: Maybe<Scalars['Float']>;
+};
+
+export type ProductOrderByWithRelationInput = {
+  name?: InputMaybe<OrderByArg>;
+  price?: InputMaybe<OrderByArg>;
 };
 
 export type ProductOrderCreateInput = {
@@ -249,7 +259,8 @@ export type QueryProductOrderArgs = {
 
 
 export type QueryProductsArgs = {
-  where: ProductWhereInput;
+  orderBy?: InputMaybe<ProductOrderByWithRelationInput>;
+  where?: InputMaybe<ProductWhereInput>;
 };
 
 
@@ -439,7 +450,8 @@ export type ProductOrderQueryVariables = Exact<{
 export type ProductOrderQuery = { __typename?: 'Query', productOrder?: { __typename?: 'ProductOrder', productId?: number | null, orderId?: number | null } | null };
 
 export type ProductsQueryVariables = Exact<{
-  where: ProductWhereInput;
+  where?: InputMaybe<ProductWhereInput>;
+  orderBy?: InputMaybe<ProductOrderByWithRelationInput>;
 }>;
 
 
@@ -835,8 +847,8 @@ export type ProductOrderQueryHookResult = ReturnType<typeof useProductOrderQuery
 export type ProductOrderLazyQueryHookResult = ReturnType<typeof useProductOrderLazyQuery>;
 export type ProductOrderQueryResult = Apollo.QueryResult<ProductOrderQuery, ProductOrderQueryVariables>;
 export const ProductsDocument = gql`
-    query products($where: ProductWhereInput!) {
-  products(where: $where) {
+    query products($where: ProductWhereInput, $orderBy: ProductOrderByWithRelationInput) {
+  products(where: $where, orderBy: $orderBy) {
     name
     description
     price
@@ -867,10 +879,11 @@ export const ProductsDocument = gql`
  * const { data, loading, error } = useProductsQuery({
  *   variables: {
  *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
  *   },
  * });
  */
-export function useProductsQuery(baseOptions: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
+export function useProductsQuery(baseOptions?: Apollo.QueryHookOptions<ProductsQuery, ProductsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<ProductsQuery, ProductsQueryVariables>(ProductsDocument, options);
       }

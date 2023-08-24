@@ -1,45 +1,40 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Select, SimpleGrid, Grid, GridItem, useBreakpointValue} from "@chakra-ui/react";
-import { FC, useCallback, useContext, useEffect, useState } from "react";
-import {
-  useLoginMutation, 
-  useCategoriesQuery,
-  useProductsLazyQuery,
-  Product,
-} from "@src/shared/generated/graphql-schema";
+import { HStack, Image, VStack, Text, Select, SimpleGrid, Grid, GridItem, useBreakpointValue} from "@chakra-ui/react";
+import { FC, useEffect, useState } from "react";
+import { useCategoriesQuery, useProductsLazyQuery, Product } from "@src/shared/generated/graphql-schema";
 import ProductComponent from './product-component';
+import { OrderByArg, ProductOrderByWithRelationInput, ProductWhereInput} from "@src/shared/generated/graphql-schema";
 
 const MarketPlaceComponent: FC = () => {
 
   const [fetchProducts] = useProductsLazyQuery({})
-  const [products, setProducts] = useState<Product[]>([]);
-  const [login] = useLoginMutation({})
   const fetchCategory = useCategoriesQuery({})
+
   const columns = useBreakpointValue({ base: 1, md: 2, lg: 3, xl: 4});
   const isMobile = useBreakpointValue({ base: true, md: false });
 
-  const getAllProducts = async () => {
-    const products = await fetchProducts({
-      variables: {
-        where: {
-        }}
-    });
+  const [orderByFiler, setOrderByFilter] = useState<ProductOrderByWithRelationInput>({name: OrderByArg.Asc});
+  const [categoryFilter, setCategoryFilter] = useState<ProductWhereInput>({});
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const getProducts = async () => {
+    const products = await fetchProducts({ variables: { where: categoryFilter, orderBy: orderByFiler } });
     setProducts(products.data?.products as Product[]);
   }
 
-  const getProductByCategory = async (categoryIdVariable : number) => {
-    const products = await fetchProducts({
-      variables: {
-        where: {
-          categoryId : categoryIdVariable
-        }}
-    });
-    setProducts(products.data?.products as Product[]);
-  }
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === "All") {
-      getAllProducts();
+      setCategoryFilter({});
     } else {
-      getProductByCategory(parseInt(e.target.value));
+      setCategoryFilter({categoryId: parseInt(e.target.value)});
+    }
+  }
+  const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === "Alpha") {
+      setOrderByFilter({name: OrderByArg.Asc})
+    } else if (e.target.value === "Low") {
+      setOrderByFilter({price: OrderByArg.Asc})
+    } else if (e.target.value === "High") {
+      setOrderByFilter({price: OrderByArg.Desc})
     }
   }
   const handlePagination = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -47,8 +42,8 @@ const MarketPlaceComponent: FC = () => {
   }
 
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    getProducts();
+  }, [orderByFiler, categoryFilter]);
 
   useEffect(() => {
     // console.log(products);
@@ -115,10 +110,10 @@ const MarketPlaceComponent: FC = () => {
               bg={'fishPalette.cyan'}
               rounded={'md'}
               boxShadow={'lg'}
-              onChange={(e) => { handlePagination(e)}} >
+              onChange={(e) => { handleSort(e)}} >
                 <option value="Alpha">Alphabetical</option>
-                <option value="High">Price: Low to High</option>
-                <option value="Low">Price: High to Low</option>
+                <option value="Low">Price: Low to High</option>
+                <option value="High">Price: High to Low</option>
             </Select>
             <Text
             w={'100px'}

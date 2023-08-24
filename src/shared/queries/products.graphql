@@ -1,5 +1,5 @@
-query products($where: ProductWhereInput!) {
-  products(where: $where) {
+query products($where: ProductWhereInput, $orderBy: ProductOrderByWithRelationInput) {
+  products(where: $where, orderBy: $orderBy) {
     name
     description
     price
