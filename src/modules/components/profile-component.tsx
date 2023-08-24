@@ -56,20 +56,28 @@ const ProfileComponent: FC = () => {
         // console.log(error.extensions.response.message);
       }
   }
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
+
   return (
     <>
-    {!userContext ? <> <Text>No user signed in</Text> </> : <> 
-     
-        <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'} >
-          <VStack minH={'1000px'}>
-              <Text fontSize={32} as={'b'}>Profile</Text>
-          <Image
-            position={'absolute'}
-            src='img/fishTank.jpg'
-            opacity={0.25}
-            minH={'450px'}
-            zIndex={-1}
-            />
+      <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'} >
+        <VStack minH={'1000px'}>
+        <Image
+          position={'absolute'}
+          src='img/fishTank.jpg'
+          opacity={0.25}
+          minH={'450px'}
+          zIndex={-1}
+          />
+        {!userContext ? <> <Text>No user signed in</Text> </> : <> 
+          <Button
+            onClick={handleSignOut}
+            >Sign Out</Button>
+            <Text fontSize={32} as={'b'}>Profile</Text>
             <VStack 
               align={'left'} 
               background={'fishPalette.cyan'}
@@ -81,10 +89,6 @@ const ProfileComponent: FC = () => {
               outline={'4px solid'}
               outlineColor={'fishPalette.green'}
             >
-              {/* <Image
-                boxSize="200px"
-                objectFit="cover"
-                /> */}
               <ProfileBlock title={'UserName'} info={userContext.username}/>
               <ProfileBlock title={'First Name'} info={userContext.firstName}/>
               <ProfileBlock title={'Last Name'} info={userContext.lastName}/>
@@ -94,10 +98,10 @@ const ProfileComponent: FC = () => {
                 onClick={handleClick}
               >Save</Button>
             </VStack>
-          </VStack>
+          </>}
+        </VStack>
       </Flex>
-      </>}
-      </>
+    </>
   );
 };
 

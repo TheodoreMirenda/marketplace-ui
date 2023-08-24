@@ -39,6 +39,8 @@ const LoginComponent: FC = () => {
   return (
     <>
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
+ 
+            
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
 
         <Stack spacing={4} w={"full"} maxW={"md"}>
@@ -72,26 +74,33 @@ const LoginComponent: FC = () => {
               justify={"space-between"}
             >
               <Checkbox>Remember me</Checkbox>
-              <Link color={"red.500"}>Forgot password?</Link>
+              <Link color={"fishPalette.red"}>Forgot password?</Link>
             </Stack>
-            <Button onClick={()=>onSubmit()} colorScheme={"red"} variant={"solid"}>
+            <Button onClick={()=>onSubmit()} variant={"solid"}>
               Sign in
             </Button>
           </Stack>
           <Stack pt={6}>
             <Text align={"center"}>
-              Does not have a user? <Link href="/signup" color={"red.400"}>Sign Up</Link>
+              Does not have a user? <Link href="/signup" color={"fishPalette.red"}>Sign Up</Link>
             </Text>
           </Stack>
         </Stack>
 
       </Flex>
       <Flex flex={1}>
-        {/* <Image
-          alt={"Login Image"}
+      {/* <Image
+            position={'absolute'}
+            src='img/fishTank.jpg'
+            minH={'450px'}
+            zIndex={-1}
+            /> */}
+        <Image
+            opacity={0.25}
+            alt={"Login Image"}
           objectFit={"cover"}
-          src={"/movies-background.jpg"}
-        /> */}
+          src={"img/fishTank.jpg"}
+        />
       </Flex>
     </Stack>
     

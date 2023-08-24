@@ -9,12 +9,18 @@ import AuthContext from "@src/shared/contexts/auth.context";
 
 export default function MainHeader() {
 
-  const fetchCategory = useCategoriesQuery({})
+  const { login, isLoading, user } = useContext(AuthContext);
+
+  // const fetchCategory = useCategoriesQuery({})
   const [categories, setCategories] = useState<Category[]>([]);
 
+  // useEffect(() => {
+  //   setCategories(fetchCategory.data?.categories as Category[]);
+  // }, [fetchCategory]);
+
   useEffect(() => {
-    setCategories(fetchCategory.data?.categories as Category[]);
-  }, [fetchCategory]);
+    console.log(user);
+  }, [user]);
   
   return (
     <>
@@ -37,14 +43,14 @@ export default function MainHeader() {
 
       <HStack ml={4} mr={4} spacing={8}>
         <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
-        {useContext(AuthContext).user ?
+        {user?.firstName ?
           <>
-            <Link as={NextLink} color={'fishPalette.white'}href="/profile">
-              <Text mb={-2} color={'fishPalette.gray'} fontSize={14}>Hello, {useContext(AuthContext).user?.firstName}</Text>
+            <Link as={NextLink} color={'fishPalette.white'}href="/profile" minW={'75px'}>
+              <Text mb={-2} color={'fishPalette.gray'} fontSize={14}>Hello, {user.firstName}</Text>
               <Text color={'fishPalette.white'} as={'b'}>Account</Text>
             </Link>
           </> : <>
-            <Link as={NextLink} color={'fishPalette.white'}href="/login">Log In</Link>
+            <Link as={NextLink} color={'fishPalette.white'}href="/login" minW={'50px'}>Log In</Link>
           </>
         }
         <Button as={NextLink} href={"/cart"}  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
@@ -54,7 +60,7 @@ export default function MainHeader() {
 
     <Flex mt={0} height={'30px'} bg={'fishPalette.cyan'} justifyContent={'left'} padding={0} >
       <Link 
-        as={NextLink} w='75px' h='30px' justifyContent='center' href="/marketplace"
+        as={NextLink} w='125px' h='30px' justifyContent='center' href="/marketplace"
         pt={1}
         bg= "fishPalette.cyan"
         color= "white"
@@ -71,7 +77,7 @@ export default function MainHeader() {
         textStyle={'b'}
         >
           <Text fontSize={14} as={'b'}>
-            ALL
+            Marketplace
           </Text>
         </Link>
 
