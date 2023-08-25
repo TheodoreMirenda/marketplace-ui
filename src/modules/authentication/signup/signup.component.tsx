@@ -1,4 +1,4 @@
-import { useSignupMutation } from "/src/shared/generated/graphql-schema";
+import { useSignupMutation, useUserLazyQuery } from "@src/shared/generated/graphql-schema";
 import {
   Button,
   Flex,
@@ -14,23 +14,67 @@ import {
   HStack,
   FormErrorMessage,
 } from "@chakra-ui/react";
-
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-
+import NextLink from 'next/link'
 import { FC } from "react";
-import {
-  ISignUpFormValues,
-  INITIAL_SIGN_UP_VALUES,
-  SIGN_UP_FORM_SCHEMA,
-} from "./signup.util";
+import { ISignUpFormValues, INITIAL_SIGN_UP_VALUES, SIGN_UP_FORM_SCHEMA, } from "./signup.util";
+import { toast } from "react-toastify";
 
 const SignUpComponent: FC = () => {
   const [signup] = useSignupMutation();
+  const [user] = useUserLazyQuery({});
 
   const router = useRouter();
 
   const onSubmit = async () => {
+
+    if(errors.username){
+      toast.error(errors.username);
+      return;
+    }
+    if(errors.email){
+      toast.error(errors.email);
+      return;
+    }
+    if(errors.password){
+      toast.error(errors.password);
+      return;
+    }
+    if(errors.firstName){
+      toast.error(errors.firstName);
+      return;
+    }
+    if(errors.lastName){
+      toast.error(errors.lastName);
+      return;
+    }
+
+    const emailIsTaken = await user({
+      variables: {
+        where: {
+          email: values.email
+        }
+      }
+    })
+
+    if(emailIsTaken.data?.user?.email){
+      toast.error("Email is already taken");
+      return;
+    }
+    const usernameIsTaken = await user({
+      variables: {
+        where: {
+          username: values.username
+        }
+      }
+    })
+
+    if(usernameIsTaken.data?.user?.username){
+      toast.error("Username is already taken");
+      return;
+    }
+
     await signup({
       variables: {
         data: values,
@@ -58,21 +102,21 @@ const SignUpComponent: FC = () => {
                 Sign up
               </Heading>
               <Text fontSize={"lg"} color={"gray.600"}>
-                create an account to place an order
+                Join the largest fish marketplace that I have built
               </Text>
             </Stack>
             <HStack>
               <Box>
-                <FormControl id="name" isRequired isInvalid={!!errors.name}>
+                <FormControl id="firstName" isRequired isInvalid={!!errors.firstName}>
                   <FormLabel>First Name</FormLabel>
                   <Input
-                    name="name"
+                    name="firstName"
                     onChange={handleChange}
-                    value={values.name}
+                    value={values.firstName}
                     type="text"
                   />
-                  {!!errors.name ? (
-                    <FormErrorMessage>{errors.name}</FormErrorMessage>
+                  {!!errors.firstName ? (
+                    <FormErrorMessage>{errors.firstName}</FormErrorMessage>
                   ) : (
                     ""
                   )}
@@ -91,7 +135,7 @@ const SignUpComponent: FC = () => {
                     onChange={handleChange}
                     value={values.lastName}
                   />
-                  {!!errors.name ? (
+                  {!!errors.lastName ? (
                     <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                   ) : (
                     ""
@@ -107,7 +151,7 @@ const SignUpComponent: FC = () => {
                 onChange={handleChange}
                 value={values.email}
               />
-              {!!errors.name ? (
+              {!!errors.email ? (
                 <FormErrorMessage>{errors.email}</FormErrorMessage>
               ) : (
                 ""
@@ -121,8 +165,8 @@ const SignUpComponent: FC = () => {
                 onChange={handleChange}
                 value={values.username}
               />
-              {!!errors.name ? (
-                <FormErrorMessage>{errors.username}</FormErrorMessage>
+              {!!errors.username ? (
+                    <FormErrorMessage>{errors.username}</FormErrorMessage>
               ) : (
                 ""
               )}
@@ -135,34 +179,31 @@ const SignUpComponent: FC = () => {
                 onChange={handleChange}
                 value={values.password}
               />
-              {!!errors.name ? (
+              {!!errors.password ? (
                 <FormErrorMessage>{errors.password}</FormErrorMessage>
               ) : (
                 ""
               )}
             </FormControl>
             <Stack spacing={6} pt={6}>
-              <Button
-                colorScheme={"red"}
-                variant={"solid"}
-                onClick={() => handleSubmit()}
-              >
+              <Button onClick={() => onSubmit()} >
                 Sign Up
               </Button>
             </Stack>
 
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"red.400"}>Login</Link>
+                Already a user? <Link as={NextLink} href="/login" color={"fishPalette.red"}>Login</Link>
               </Text>
             </Stack>
           </Stack>
         </Flex>
         <Flex flex={1}>
           <Image
+            opacity={0.25}
             alt={"Login Image"}
             objectFit={"cover"}
-            src={"/movies-background.jpg"}
+            src={"img/fishTank.jpg"}
           />
         </Flex>
       </Stack>

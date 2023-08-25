@@ -61,11 +61,12 @@ const MarketPlaceComponent: FC = () => {
         />
 
       <Grid
-        h='750px'
+        minH='1920px'
         gridTemplateRows={'50px 1fr 30px'}
         templateColumns='repeat(5, 1fr)'
         gap={4}
         mt={25}
+        // justifyItems={'center'}
       >
         <GridItem rowSpan={2} colSpan={1} paddingLeft={25}>
           <VStack h={'100%'} >

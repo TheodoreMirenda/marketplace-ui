@@ -16,16 +16,15 @@ import { useFormik } from "formik";
 import { FC, useContext } from "react";
 import AuthContext from '../../../shared/contexts/auth.context'
 import { ILoginFormValues, INITIAL_LOGIN_VALUES, LOGIN_FORM_SCHEMA } from "./login.util";
+import NextLink from 'next/link'
 
 const LoginComponent: FC = () => {
 
     const { login, isLoading } = useContext(AuthContext);
 
-    const onSubmit = async () =>{
-        // console.log('onSubmit');
-        // const loginResp = await login(values.email, values.password);
-        const loginResp = await login("tjmirenda3@gmail.com", "12345678910");
-        // console.log(loginResp);
+    const onSubmit = async () => {
+        const loginResp = await login(values.email, values.password);
+        // const loginResp = await login("tjmirenda3@gmail.com", "12345678910");
     }
 
     const { handleSubmit, handleChange, setFieldValue, values, errors, touched } =
@@ -82,19 +81,13 @@ const LoginComponent: FC = () => {
           </Stack>
           <Stack pt={6}>
             <Text align={"center"}>
-              Does not have a user? <Link href="/signup" color={"fishPalette.red"}>Sign Up</Link>
+              Does not have a user? <Link as={NextLink} href="/signup" color={"fishPalette.red"}>Sign Up</Link>
             </Text>
           </Stack>
         </Stack>
 
       </Flex>
       <Flex flex={1}>
-      {/* <Image
-            position={'absolute'}
-            src='img/fishTank.jpg'
-            minH={'450px'}
-            zIndex={-1}
-            /> */}
         <Image
             opacity={0.25}
             alt={"Login Image"}
