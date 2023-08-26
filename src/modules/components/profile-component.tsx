@@ -3,6 +3,7 @@ import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useUserLazyQuery,
   useUserUpdateMutation,
+  User,
 } from "@src/shared/generated/graphql-schema";
 import AuthContext from "@src/shared/contexts/auth.context";
 import { UserUpdateInput } from "@src/shared/generated/graphql-schema";
@@ -10,13 +11,15 @@ import { toast } from "react-toastify";
 
 const ProfileComponent: FC = () => {
   // console.log(useContext(AuthContext));
-  const userContext = useContext(AuthContext)?.user;
+  const userContext = useContext(AuthContext)?.user as UserUpdateInput;
   const [userUpdate] = useUserUpdateMutation({})
   const [data, setData] = useState<UserUpdateInput>({});
   const [handleUserNameField, setHandleUserNameField] = useState(userContext?.username);
 
 
   const handleClick = async () => {
+    if(!userContext) return toast.error("No user signed in");
+
     const userUpdateInput : UserUpdateInput = {};
     //get input with the id of the title
     const username = (document.getElementById('UserName') as HTMLInputElement).value;
@@ -42,8 +45,9 @@ const ProfileComponent: FC = () => {
 
     try{
       const info = await userUpdate({
+
         variables: {
-          where: {uuid: userContext.uuid},
+          where: {username: userContext.username},
           data: userUpdateInput
         }});
         console.log(info);
@@ -89,14 +93,12 @@ const ProfileComponent: FC = () => {
               outline={'4px solid'}
               outlineColor={'fishPalette.green'}
             >
-              <ProfileBlock title={'UserName'} info={userContext.username}/>
-              <ProfileBlock title={'First Name'} info={userContext.firstName}/>
-              <ProfileBlock title={'Last Name'} info={userContext.lastName}/>
-              <ProfileBlock title={'Email'} info={userContext.email}/>
-              <ProfileBlock title={'Password'} info={userContext.password}/>
-              <Button
-                onClick={handleClick}
-              >Save</Button>
+              <ProfileBlock title={'UserName'} info={userContext.username!}/>
+              <ProfileBlock title={'First Name'} info={userContext.firstName!}/>
+              <ProfileBlock title={'Last Name'} info={userContext.lastName!}/>
+              <ProfileBlock title={'Email'} info={userContext.email!}/>
+              <ProfileBlock title={'Password'} info={userContext.password!}/>
+              <Button onClick={handleClick} >Save</Button>
             </VStack>
           </>}
         </VStack>
@@ -107,7 +109,7 @@ const ProfileComponent: FC = () => {
 
 export default ProfileComponent;
 
-const ProfileBlock = ({title, info}:{title:string, info:string}) => {
+const ProfileBlock = ({title, info}:{title:string, info:string }) => {
   
   const [value, setValue] = useState(info)
   const handleChange = (event: any) => setValue(event.target.value)

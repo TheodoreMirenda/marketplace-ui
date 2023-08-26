@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 
-import { IUserProfile } from '../models';
+import { User } from '../generated/graphql-schema';
 
 export interface IAuthContext {
   token: string | null;
-  user?: IUserProfile;
+  user?: User;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;

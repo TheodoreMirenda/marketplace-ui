@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  marketplace-ui:
+    container_name: marketplace-ui
+    build:
+      context: ./
+      target: runner
+    volumes:
+      - .:/app
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development

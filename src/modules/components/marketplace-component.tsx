@@ -140,7 +140,7 @@ const MarketPlaceComponent: FC = () => {
           <HStack justifyContent={'space-between'}>
             <SimpleGrid justifyContent={'center'} justifyItems={'center'} mb={'150'} columns={columns} spacing={6}>
               {products?.map((product) => (
-                  <ProductComponent {...product}/>
+                  <ProductComponent key={product.id} {...product}/>
               ))}
             </SimpleGrid>
           </HStack>

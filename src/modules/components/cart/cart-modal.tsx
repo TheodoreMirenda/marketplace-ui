@@ -65,7 +65,6 @@ const getImagePath = () => {
                 <ModalHeader padding={0} >Added to your cart:</ModalHeader>
                 <CartText txt={productOrder.product?.name as string}/>
                 <CartText txt={'Quantity: ' + productOrder.quantity  as string}/>
-                <CartText txt={productOrder.product?.description  as string}/>
                 <CartText txt={'$' + productOrder.product?.price?.toFixed(2) as string}/>
                 <HStack spacing={2} mt={8} >
                     <Button onClick={() => router.push("/cart")}  >View Cart</Button>

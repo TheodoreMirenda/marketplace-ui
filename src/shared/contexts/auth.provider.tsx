@@ -3,8 +3,9 @@ import { useApolloClient } from "@apollo/client";
 
 import AuthContext from "./auth.context";
 
-import { IUserProfile } from "../models";
+// import { IUserProfile } from "@src/shared/generated/graphql-schema";
 import {
+  User,
   useLoginMutation,
   useUserLazyQuery,
 } from "@src/shared/generated/graphql-schema";
@@ -16,7 +17,7 @@ const AuthProvider: FC<{ children: any }> = ({ children }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
  
-  const [user, setUser] = useState<IUserProfile | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
   const [token, setToken] = useState<string | null>(null);
 
   const client = useApolloClient();
@@ -53,7 +54,7 @@ const AuthProvider: FC<{ children: any }> = ({ children }) => {
           });
           setIsLoading(false);
           setToken(storedToken);
-          setUser(response.data?.user as IUserProfile);
+          setUser(response.data?.user as User);
  
         } catch (error) {}
       }
@@ -76,7 +77,7 @@ const AuthProvider: FC<{ children: any }> = ({ children }) => {
       });
 
       console.log(response);
-      setUser(response.data?.login.user as IUserProfile);
+      setUser(response.data?.login.user as User);
       setIsLoading(false);
       localStorage.setItem(
         "token",

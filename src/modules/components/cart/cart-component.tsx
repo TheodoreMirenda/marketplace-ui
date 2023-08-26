@@ -93,7 +93,7 @@ const CartComponent: FC = () => {
                     > <Divider/></GridItem>
 
                     {cartItems?.map((productOrder) => (
-                        <ShoppingCartItem productOrder={productOrder} overrideCartItem={overrideCartItem} removeFromCart={removeFromCart}/>
+                        <ShoppingCartItem key={productOrder.orderId} productOrder={productOrder} overrideCartItem={overrideCartItem} removeFromCart={removeFromCart}/>
                     ))}
 
             <GridItem>
