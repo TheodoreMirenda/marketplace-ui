@@ -23,33 +23,14 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-// const link = ApolloLink.from([withToken, authMiddleware.concat(httpLink)]);
-
-// export const client = new ApolloClient({
-//   link,
-//   cache: new InMemoryCache({
-//     addTypename: false
-//   })
-// });
-// import { HttpLink, from } from "@apollo/client";
-// import { onError } from "@apollo/client/link/error";
-
-// const errorLink = onError(({ graphQLErrors, networkError }) => {
-//   if (graphQLErrors)
-//     graphQLErrors.forEach(({ message, locations, path }) =>
-//       console.log(
-//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-//       )
-//     );
-//   if (networkError) console.log(`[Network error]: ${networkError}`);
-// });
-
-// const httpLink = new HttpLink({ uri: 'http://localhost:3000/graphql' })
+const link = createHttpLink({
+  uri: 'https://api.theodoremirenda.com/graphql',
+  credentials: 'same-origin'
+});
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:8080/graphql',
   cache: new InMemoryCache({
     addTypename: false
   }),
-  // link: from([errorLink, authMiddleware])
+  link: link,
 });

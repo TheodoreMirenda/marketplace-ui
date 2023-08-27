@@ -53,6 +53,7 @@ const HomeComponent: FC = () => {
                 
               <Button mb={10} mt={10} maxW={'200px'} as={NextLink} href="/marketplace" colorScheme={'fishPalette.cyan'} rightIcon={<ArrowRightIcon/>}>Explore</Button>
               <Button mb={10} mt={10} maxW={'200px'} as={NextLink} href="/login" colorScheme={'fishPalette.cyan'} variant={'outline'}>Login</Button>
+      {/* <DataCreator/> */}
                </HStack>
                 <HStack spacing={8}>
                   <VStack spacing={0} alignItems={'left'} justifyContent={'left'} justifyItems={'left'}>
@@ -85,7 +86,6 @@ const HomeComponent: FC = () => {
       
           </Flex>
       </Flex>
-      <DataCreator/>
     </>
   );
 };

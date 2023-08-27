@@ -32,7 +32,7 @@ const DataCreator: FC = () => {
       price: 7.99,
       quantity: 10,
       vendorId:1,
-      categoryId: 1,
+      categoryId: 2,
       images: ["Java-Fern.jpg"]
     },
     {
@@ -41,7 +41,7 @@ const DataCreator: FC = () => {
       price: 8.50,
       quantity: 10,
       vendorId:1,
-      categoryId: 1,
+      categoryId: 2,
       images: ["mossball.jpg"]
     },
     {
@@ -50,7 +50,7 @@ const DataCreator: FC = () => {
       price: 19.99,
       quantity: 12,
       vendorId:1,
-      categoryId: 2,
+      categoryId: 1,
       images: ["bettaFish.jpg"]
     },
     {
@@ -59,7 +59,7 @@ const DataCreator: FC = () => {
       price: 4.99,
       quantity: 5,
       vendorId:1,
-      categoryId: 2,
+      categoryId: 1,
       images: ["neonTetra.jpg"]
     },
     {
@@ -68,7 +68,7 @@ const DataCreator: FC = () => {
       price: 3.99,
       quantity: 5,
       vendorId:1,
-      categoryId: 2,
+      categoryId: 1,
       images: ["Red_Wag_Platy.jpg"]
     },
     {
@@ -77,7 +77,7 @@ const DataCreator: FC = () => {
       price: 13.99,
       quantity: 5,
       vendorId:1,
-      categoryId: 2,
+      categoryId: 1,
       images: ["Rosy_Barb.jpg"]
     }
   ]
@@ -87,7 +87,7 @@ const DataCreator: FC = () => {
       await createCategory({
         variables:{
           data: {
-            name: "Plant"
+            name: "Fish"
           }
         }
       })
@@ -96,7 +96,7 @@ const DataCreator: FC = () => {
       await createCategory({
         variables:{
           data: {
-            name: "Fish"
+            name: "Plants"
           }
         }
       })

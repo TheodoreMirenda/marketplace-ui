@@ -12,3 +12,24 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
+    networks:
+      - thefishnetwork
+
+  nginxProxyManager:
+    container_name: nginx-proxy-manager
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - thefishnetwork
+
+networks:
+  thefishnetwork:
+    driver: bridge
+    external: true
