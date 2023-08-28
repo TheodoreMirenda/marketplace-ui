@@ -18,12 +18,14 @@ import {
     useDisclosure,
     Box,
     Spacer,
+    SimpleGrid,
+    GridItem,
 } from "@chakra-ui/react"
 import {
   Product, ProductOrder,
 } from "@src/shared/generated/graphql-schema";
 import { FC } from "react";
-const imgPath = '/TheFishStore/img/'
+const imgPath = '/img/'
 import NextLink from 'next/link'
 import { useEffect } from "react";
 import { ArrowForwardIcon, ArrowBackIcon } from "@chakra-ui/icons";
@@ -48,35 +50,38 @@ const getImagePath = () => {
     <>
       <Modal onClose={onClose} size={'xl'} isOpen={isOpen}>
         <ModalOverlay />
-        <ModalContent bgColor={'fishPalette.cyan'} pt={4} pb={16}>
+        <ModalContent bgColor={'fishPalette.cyan'} padding={4} margin={4} alignSelf={'center'}>
           <ModalCloseButton />
           <ModalBody>
-            <HStack spacing={4}>
+            <SimpleGrid columns={{base: 1, md: 3}} spacing={4}>
+              <GridItem colSpan={{base:1, md:1}}>
             <Image
-                boxSize="180px"
-                objectFit="cover"
                 bg={'fishPalette.gray'}
                 fallbackSrc='https://via.placeholder.com/128'
                 alignSelf={'flex-start'}
                 src={getImagePath()}
                 rounded={'lg'}
             />
-            <VStack height={'180px'} spacing={0} alignSelf={'flex-start'} alignItems={'flex-start'} w={'70%'}>
-                <ModalHeader padding={0} >Added to your cart:</ModalHeader>
-                <CartText txt={productOrder.product?.name as string}/>
-                <CartText txt={'Quantity: ' + productOrder.quantity  as string}/>
-                <CartText txt={'$' + productOrder.product?.price?.toFixed(2) as string}/>
-                <HStack spacing={2} mt={8} >
-                    <Button onClick={() => router.push("/cart")}  >View Cart</Button>
-                    <Button onClick={onClose}rightIcon={<ArrowForwardIcon/>}>Checkout</Button>
-                </HStack>
-                <Button mt={4}  variant={'ghost'} onClick={onClose} leftIcon={<ArrowBackIcon/>}>Continue Shopping</Button>
             
-            </VStack>
-            </HStack>
+              </GridItem>
+              <GridItem colSpan={{base:1, md:2}}>
+                <VStack spacing={0} alignSelf={'flex-start'} alignItems={'flex-start'} w={'70%'}>
+                  <ModalHeader padding={0} >Added to your cart:</ModalHeader>
+                  <CartText txt={productOrder.product?.name as string}/>
+                  <CartText txt={'Quantity: ' + productOrder.quantity  as string}/>
+                  <CartText txt={'$' + productOrder.product?.price?.toFixed(2) as string}/>
+                  <HStack spacing={2} mt={8} >
+                      <Button onClick={() => router.push("/cart")}  >View Cart</Button>
+                      <Button onClick={onClose} variant={'outline'} rightIcon={<ArrowForwardIcon/>}>Checkout</Button>
+                  </HStack>
+                </VStack>
+              </GridItem>
 
+              <GridItem colSpan={{base:1, md:3}}>
+                <Button mt={{base:0, md:4}} h={'40px'}  variant={'ghost'} onClick={onClose} leftIcon={<ArrowBackIcon/>}>Continue Shopping</Button>
+              </GridItem>
+            </SimpleGrid>
           </ModalBody>
-    
         </ModalContent>
       </Modal>
     </>

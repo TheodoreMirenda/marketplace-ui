@@ -27,15 +27,16 @@ const ProductComponent: FC<Product> = (product) => {
   return (
       <Link as={NextLink} color={'fishPalette.white'} href={`/product/${product.uuid}`} onClick={handleLinkClick }>
       <Flex
-        w={'250px'}
-        h={'375px'}
+        w={{base: '300px', md: '255px'}}
+        minH={'375px'}
         bg={'fishPalette.cyan'}
         rounded={'lg'}
         justify={'center'}
         align={'top'}
         boxShadow={'lg'}
         outline={'2px solid'}
-        outlineColor={'fishPalette.green'}
+        outlineColor={'fishPalette.cyan'}
+        bgGradient={'linear(to-r, fishPalette.darkBlue, fishPalette.cyan)'}
         _hover={
           {
             transform: 'scale(1.025)',
@@ -47,18 +48,23 @@ const ProductComponent: FC<Product> = (product) => {
     >
       <VStack spacing={0} padding={2} align={'left'}
       alignContent={'left'}
+      w={'100%'}
       >
         <Image
-          mt={'6px'}
-          h={'200px'}
-          w={'225px'}
-          objectFit="cover"
+          mb={2}
+          h={{base: '225px', md: '150px'}}
+          w={{base: '275px', md: '225px'}}
+          objectFit={"cover"}
           bg={'fishPalette.gray'}
           fallbackSrc='https://via.placeholder.com/225'
           src={imgPath + product.images[0]}
           rounded={'lg'}
           alignSelf={'center'}
         />
+
+        <VStack w={'100%'} alignItems={'left'} 
+
+        rounded={"md"} padding={2}>
 
         <HStack justifyContent={'space-between'} mr={1}>
       <Text
@@ -82,8 +88,11 @@ const ProductComponent: FC<Product> = (product) => {
         as={'i'}
         fontSize={'sm'}
         color={'fishPalette.gray'}
-        h={'65px'}
-        >{product.description?.substring(0, 100)}{product.description?.length! > 100 ? "..." : ""}</Text>
+        noOfLines={3}
+        minH={'65px'}
+        maxH={'65px'}
+        maxW={'250px'}
+        >{product.description}</Text>
 
           <Text
             as={'b'}
@@ -101,6 +110,7 @@ const ProductComponent: FC<Product> = (product) => {
         onClick={handleButtonClick}
             h={'30px'} w={'125px'}>
               Add to Cart</Button> */}
+              </VStack>
       </VStack>
     </Flex>
     </Link>

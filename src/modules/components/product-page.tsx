@@ -31,7 +31,7 @@ const ProductPageComponent: FC<Product> = (product) => {
   const router = useRouter()
   const {isOpen: isOpenCart, onOpen: onOpenCart, onClose: onCloseCart} = useDisclosure();
   const [productOrder, setProductOrder] = useState<ProductOrder>({});
-  const imgPath = '/TheFishStore/img/'
+  const imgPath = '/img/'
   const { addToCart, isLoading } = useContext(CartContext);
 
   const getImagePath = () => {
@@ -58,7 +58,7 @@ const ProductPageComponent: FC<Product> = (product) => {
     <CartModal isOpen={isOpenCart} onClose={onCloseCart} productOrder={productOrder} />
     <Image
         position={'absolute'}
-        src='/TheFishStore/img/fishTank.jpg'
+        src='/img/fishTank.jpg'
         minH={'450px'}
         zIndex={-1}
         opacity={0.25}
@@ -72,15 +72,16 @@ const ProductPageComponent: FC<Product> = (product) => {
 
     <Grid 
       w={'100%'}
-      templateColumns='repeat(5, 1fr)'
+      templateColumns={{base: 'repeat(1, 1fr)', md: 'repeat(5, 1fr)'}}
       gap={6}
       mb={25}
       >
       
-        <GridItem colSpan={2} 
-        outline={'2px solid'}
-        outlineColor={'fishPalette.green'}
-        rounded={'lg'}
+        <GridItem 
+          colSpan={2} 
+          outline={'2px solid'}
+          outlineColor={'fishPalette.green'}
+          rounded={'lg'}
         >
           <Image
             rounded={'lg'}
@@ -94,8 +95,9 @@ const ProductPageComponent: FC<Product> = (product) => {
             />
         </GridItem>
 
-      <GridItem colSpan={3} 
-        background={'fishPalette.cyan'}
+      <GridItem 
+        colSpan={3} 
+        bgGradient={'linear(to-r, fishPalette.darkBlue, fishPalette.cyan)'}
         rounded={'lg'}
         boxShadow={'lg'}
         mr={25}

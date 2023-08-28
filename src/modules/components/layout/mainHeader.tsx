@@ -1,5 +1,5 @@
 import { SearchIcon } from '@chakra-ui/icons'
-import { HStack, Text, Flex, Button, Image, Box, Divider, Link} from '@chakra-ui/react'
+import { HStack, Text, Flex, Button, Image, Box, Divider, Link, useBreakpointValue, VStack, Spacer} from '@chakra-ui/react'
 import { SearchBar } from './search-bar'
 import { Category, useCategoriesQuery } from "@src/shared/generated/graphql-schema";
 import { useEffect, useState, useContext } from 'react';
@@ -11,15 +11,11 @@ export default function MainHeader() {
 
   const { login, isLoading, user } = useContext(AuthContext);
 
-  // const fetchCategory = useCategoriesQuery({})
   const [categories, setCategories] = useState<Category[]>([]);
-
-  // useEffect(() => {
-  //   setCategories(fetchCategory.data?.categories as Category[]);
-  // }, [fetchCategory]);
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   }, [user]);
   
   return (
@@ -30,7 +26,7 @@ export default function MainHeader() {
           ml={2}
           boxSize="45px"
           objectFit="cover"
-          src= '/TheFishStore/img/fishStoreLogo.png'
+          src= '/img/fishStoreLogo.png'
           />
           <Link as={NextLink} href="/">
             <Text fontSize="32" as='b' textColor="fishPalette.white" ml={2} marginTop={'auto'}>
@@ -38,27 +34,17 @@ export default function MainHeader() {
             </Text>
           </Link>
       </HStack>
+      
+      {isMobile ? <></> : <SearchBar />}
 
-      <SearchBar />
-
-      <HStack ml={4} mr={4} spacing={8}>
-        <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>
-        {user?.firstName ?
-          <>
-            <Link as={NextLink} color={'fishPalette.white'}href="/profile" minW={'75px'}>
-              <Text mb={-2} color={'fishPalette.gray'} fontSize={14}>Hello, {user.firstName}</Text>
-              <Text color={'fishPalette.white'} as={'b'}>Account</Text>
-            </Link>
-          </> : <>
-            <Link as={NextLink} color={'fishPalette.white'}href="/login" minW={'50px'}>Log In</Link>
-          </>
-        }
+      <HStack ml={{base:0, md:4}} mr={4} spacing={8}>
+        {isMobile ? <></> : <Link as={NextLink} color={'fishPalette.white'}href="/about">About</Link>}
         <Button as={NextLink} href={"/cart"}  h={'35px'} w={'55px'} pr={'10px'} leftIcon={<BsCart4/>}></Button>
       </HStack>
       
     </Flex>
 
-    <Flex mt={0} height={'30px'} bg={'fishPalette.cyan'} justifyContent={'left'} padding={0} >
+    <Flex mt={0} height={'30px'} bg={'fishPalette.cyan'} justifyContent={'space-between'} padding={0} >
       <Link 
         as={NextLink} w='125px' h='30px' justifyContent='center' href="/marketplace"
         pt={1}
@@ -108,6 +94,19 @@ export default function MainHeader() {
         <Divider orientation="vertical"/>
         </>
       ))}
+
+       {user?.firstName ?
+          <>
+              <Link as={NextLink} color={'fishPalette.white'} href="/profile" justifyItems={'right'} mr={4}>
+                <VStack spacing={2} ml={4} mt={0} justifyContent={'right'} justifyItems={'right'} textAlign={'right'}>
+                  <Text textAlign={'right'} mb={-4} color={'fishPalette.gray'} fontSize={14} >Hello, {user.firstName}</Text>
+                  <Text textAlign={'right'} color={'fishPalette.white'} as={'b'} justifySelf={'right'}  fontSize={12}>Account</Text>
+                </VStack>
+              </Link>
+          </> : <>
+            <Link as={NextLink} color={'fishPalette.white'}href="/login" minW={'50px'}>Log In</Link>
+          </>
+        }
     </Flex>
     </>
   )

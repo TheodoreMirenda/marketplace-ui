@@ -1,4 +1,4 @@
-import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, useBreakpointValue, GridItem,Divider, Input, } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, Image, VStack, Text, Spacer, Grid, useBreakpointValue, GridItem,Divider, Input, Accordion, AccordionItem, useMediaQuery, } from "@chakra-ui/react";
 import { FC, useCallback, useContext, useEffect, useState } from "react";
 import {
   useLoginMutation, 
@@ -19,6 +19,7 @@ const CartComponent: FC = () => {
     const shippingCost = 29.99;
     const [taxTotal, setTaxTotal] = useState<number>(0);
     const [orderTotal, setOrderTotal] = useState<number>(0);
+    const isMobile = useBreakpointValue<boolean>({base:true, lg:false})
 
     useEffect(() => {
         console.log(cartItems);
@@ -34,18 +35,18 @@ const CartComponent: FC = () => {
     <>
     <Flex mt={0} paddingTop={0} justifyContent={'center'} justifyItems={'center'} >
         <Grid 
-        templateColumns={{ base: 'repeat(1, 1fr)', lg: 'repeat(8, 1fr)' }}
+        templateColumns={{ base: 'repeat(1, 1fr)', lg: 'repeat(4, 1fr)' }}
         gap={6}
         margin={25}
         justifyContent={'center'}
         justifyItems={'center'}
         >
-        <GridItem colSpan={{ base: 1, lg: 6 }} maxW={'750px'} >
+        <GridItem colSpan={{ base: 1, lg: 3 }} maxW={{base:'350px', lg:'750px'}}>
             <VStack>
                 <Text
                     as={'b'}
                     fontSize={'2xl'}
-                    alignSelf={'flex-start'}
+                    alignSelf={{base:'center', lg:'flex-start'}}
                     marginBottom={4} 
                     > Shopping Cart </Text>
                 
@@ -63,7 +64,7 @@ const CartComponent: FC = () => {
                     roundedBottom={'none'}
                     bg={'fishPalette.cyan'} 
                     w={'100%'}
-                    paddingLeft={8}
+                    paddingLeft={{base:2, lg:8}}
                     paddingTop={4}
                     paddingBottom={4}
                     >
@@ -73,30 +74,32 @@ const CartComponent: FC = () => {
                         >
                         Shipment 1 of 1 - These items ship together </Text>
                 </Flex>
-                <Grid gridTemplateColumns={{base:'', lg:'1fr 75px 150px 75px 50px'}}
-                 gap={6} padding={8}>
-                    <GridItem colSpan={1}  w='250px'
-                    >Item </GridItem>
-                    <GridItem colSpan={1} 
-                        justifySelf={'center'}
-
-                    >Price </GridItem>
-                    <GridItem colSpan={1} 
-                        justifySelf={'center'}
-                    >Quantity </GridItem>
-                    <GridItem colSpan={1} 
-                        justifySelf={'center'}
-                        >Total </GridItem>
-                    <GridItem colSpan={1} w='50px'
-                    > </GridItem>
-                    <GridItem colSpan={5} 
-                    > <Divider/></GridItem>
-
+                <Grid 
+                  w={'100%'}
+                  // templateColumns={{base:'repeat(1,1fr)', lg:'repeat(5, 1fr)'}}
+                  gridTemplateColumns={{base:'150px 75px 100px', lg:'200px 75px 200px 75px 50px'}}
+                  gap={{base:0, lg:4}}
+                  rowGap={{base:4, lg:4}}
+                  padding={{base:2, lg:8}}
+                  >
+                    <GridItem >Item </GridItem>
+                    <GridItem justifySelf={'center'}>Price </GridItem>
+                    <GridItem justifySelf={'center'}>Quantity </GridItem>
+                    {isMobile ? <> </> : <>
+                    <GridItem justifySelf={'center'}>Total </GridItem>
+                    </>}
+                    <GridItem colSpan={{base:3, lg:5}}> <Divider/> </GridItem>
                     {cartItems?.map((productOrder) => (
-                        <ShoppingCartItem key={productOrder.orderId} productOrder={productOrder} overrideCartItem={overrideCartItem} removeFromCart={removeFromCart}/>
+                        <ShoppingCartItem 
+                          key={productOrder.orderId} 
+                          productOrder={productOrder} 
+                          overrideCartItem={overrideCartItem} 
+                          removeFromCart={removeFromCart}
+                          />
                     ))}
+                    
 
-            <GridItem>
+            <GridItem colSpan={{base:3, lg:5}}>
                 <Text
                     fontSize={12}
                     alignSelf={'flex-start'}
@@ -109,7 +112,7 @@ const CartComponent: FC = () => {
             </VStack>
         </GridItem>
 
-        <GridItem colSpan={{ base: 1, lg: 2 }} 
+        <GridItem colSpan={{ base: 1, lg: 1 }} 
             mt={{ base: 0, lg: 58 }}
             rounded={'lg'}
             boxShadow={'lg'}
@@ -118,15 +121,17 @@ const CartComponent: FC = () => {
             opacity={0.9}
             outline={'2px solid'}
             outlineColor={'fishPalette.green'}
-            w={{ base: '40%', lg: '250px' }}
+            w={{ base: '100%', lg: '250px' }}
         >
-            <VStack spacing={0} 
-            alignItems={'left'}>
+            <VStack 
+                spacing={0} 
+                alignItems={'left'}
+                >
                 <Text
-                    as={'b'}
-                    fontSize={'2xl'}
-                    alignSelf={'flex-start'}
-                    > Order Summary </Text>
+                  as={'b'}
+                  fontSize={'2xl'}
+                  alignSelf={'flex-start'}
+                  > Order Summary </Text>
                 <Divider mb={4} mt={4}/>
                 
                 
@@ -139,7 +144,7 @@ const CartComponent: FC = () => {
                 <Text
                     as={'b'}
                     fontSize={'lg'}
-                    color={'fishPalette.gray'}
+                    color={'fishPalette.white'}
                     >$ {getCartTotal().toFixed(2)}</Text>
                 </HStack>
                 <HStack w={'100%'} justifyContent={'space-between'}>
@@ -151,7 +156,7 @@ const CartComponent: FC = () => {
                 <Text
                     as={'i'}
                     fontSize={'lg'}
-                    color={'fishPalette.gray'}
+                    color={'fishPalette.white'}
                     >$ {shippingCost.toFixed(2)}</Text>
                 </HStack>
                 <HStack w={'100%'} justifyContent={'space-between'}>
@@ -164,7 +169,7 @@ const CartComponent: FC = () => {
                 <Text
                     as={'i'}
                     fontSize={'lg'}
-                    color={'fishPalette.gray'}
+                    color={'fishPalette.white'}
                     >$ {taxTotal.toFixed(2)}</Text>
                 </HStack>
                 <Divider mb={4} mt={4}/>
@@ -211,6 +216,7 @@ interface ShoppingCartItemProps {
 }
 
 export const ShoppingCartItem = ({productOrder, overrideCartItem, removeFromCart}:ShoppingCartItemProps) => {
+    const isMobile = useBreakpointValue<boolean>({base:true, lg:false})
     const changeAmount = (amount: number) => {
         if(productOrder.quantity! + amount <= 0) {
             removeFromCart(productOrder);
@@ -224,8 +230,7 @@ export const ShoppingCartItem = ({productOrder, overrideCartItem, removeFromCart
         <>
         <GridItem colSpan={1}>
             <Text
-                as={'i'}
-                fontSize={'md'}
+                fontSize={'lg'}
                 color={'fishPalette.gray'}
                 h={'20px'}
             >
@@ -234,37 +239,37 @@ export const ShoppingCartItem = ({productOrder, overrideCartItem, removeFromCart
       </GridItem>
       <GridItem colSpan={1}>
             <Text
-                as={'i'}
-                fontSize={'md'}
-                color={'fishPalette.gray'}
+                fontSize={'lg'}
+                color={'fishPalette.white'}
                 h={'20px'}
             >
                 ${productOrder.product?.price?.toFixed(2)}
             </Text>
       </GridItem>
-      <GridItem colSpan={1}>
+      <GridItem colSpan={1} justifyContent={'center'} justifyItems={'center'}>
             <QuantityModifier quantity={productOrder.quantity!} changeAmount={changeAmount} />
       </GridItem>
-      <GridItem colSpan={1} alignSelf={'center'}>
-            <Text
-                as={'i'}
-                fontSize={'md'}
-                color={'fishPalette.gray'}
-                h={'20px'}
-                textAlign={'center'}
-                alignSelf={'center'}
-                >
-                ${Number(productOrder.product?.price?.toFixed(2)) * Number(productOrder.quantity)}
-            </Text>
-      </GridItem>
-      <GridItem colSpan={1}>
-            <Button 
-                onClick={() => removeFromCart(productOrder)}
-                variant={'ghost'}
-                h={'25px'} w={'25px'}>
-                X</Button>
-
-      </GridItem>
+      {isMobile ? <> </> : <>
+        <GridItem colSpan={1} alignSelf={'center'}>
+          <Text
+            as={'i'}
+            fontSize={'lg'}
+            color={'fishPalette.gray'}
+            h={'20px'}
+            textAlign={'center'}
+            alignSelf={'center'}
+            >
+            ${Number(productOrder.product?.price?.toFixed(2)) * Number(productOrder.quantity)}
+          </Text>
+        </GridItem>
+        <GridItem colSpan={1}>
+          <Button 
+            onClick={() => removeFromCart(productOrder)}
+            variant={'ghost'}
+            h={'25px'} w={'25px'}>
+            X</Button>
+        </GridItem>
+        </>}
       </>
     )
   }

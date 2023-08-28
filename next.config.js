@@ -4,7 +4,7 @@ const nextConfig = {
         serverActions : true,
     },
     reactStrictMode: false,
-    basePath: '/TheFishStore',
+    // basePath: '/TheFishStore',
     // images: {
     //     path: 'https://localhost:3000/TheFishStore/',
     // },

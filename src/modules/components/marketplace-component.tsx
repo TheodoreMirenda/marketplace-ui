@@ -9,7 +9,6 @@ const MarketPlaceComponent: FC = () => {
   const [fetchProducts] = useProductsLazyQuery({})
   const fetchCategory = useCategoriesQuery({})
 
-  const columns = useBreakpointValue({ base: 1, md: 2, lg: 3, xl: 4});
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   const [orderByFiler, setOrderByFilter] = useState<ProductOrderByWithRelationInput>({name: OrderByArg.Asc});
@@ -54,30 +53,27 @@ const MarketPlaceComponent: FC = () => {
       <Image
         position={'absolute'}
         src='img/fishTank.jpg'
-        minH={'450px'}
+        h={{base:"100vh-80px", md:"100vh-80px"}}
         zIndex={-1}
         opacity={0.25}
         bgRepeat={'repeat'}
         />
 
       <Grid
-        minH='1920px'
-        gridTemplateRows={'50px 1fr 30px'}
-        templateColumns='repeat(5, 1fr)'
-        gap={4}
+        // minH='1920px'
+        gridTemplateRows={{base:'85px 60px 600px', md:'50px 1fr 30px'}}
+        templateColumns={{base:'repeat(1,1fr)', md:'repeat(5, 1fr)'}}
+        justifySelf={'center'}
+        // gap={4}
         mt={25}
-        // justifyItems={'center'}
       >
-        <GridItem rowSpan={2} colSpan={1} paddingLeft={25}>
-          <VStack h={'100%'} >
-            <Text
-              fontSize={'xl'}
-              as={'b'}>
-              Select Category
-            </Text>
+        <GridItem rowSpan={{base:1, md:2}} colSpan={1}  justifySelf={'center'} justifyContent={'center'} justifyItems={'center'}>
+          <VStack justifyContent={'center'} >
+            <Text fontSize={'2xl'} as={'b'} textAlign={'center'}>Select Category </Text>
             <Select
-              ml={8}
-              mr={8}
+              w={'300px'}
+              // ml={8}
+              // mr={8}
               h={'40px'}
               bg={'fishPalette.cyan'}
               rounded={'lg'}
@@ -91,8 +87,8 @@ const MarketPlaceComponent: FC = () => {
             </VStack>
         </GridItem>
 
-        <GridItem colSpan={4} h={'25px'}>
-          <HStack justifyItems={'left'} h={'50px'} w={'100%'}>
+        <GridItem colSpan={4} h={'40px'} justifySelf={'center'} >
+          <HStack justifyItems={{base:'center', md:'left'}} h={'50px'} w={'100%'}>
             <Text
               w={'75px'}
               fontSize={'sm'}
@@ -112,10 +108,12 @@ const MarketPlaceComponent: FC = () => {
               rounded={'md'}
               boxShadow={'lg'}
               onChange={(e) => { handleSort(e)}} >
-                <option value="Alpha">Alphabetical</option>
-                <option value="Low">Price: Low to High</option>
-                <option value="High">Price: High to Low</option>
+                <option key='Alpha' value="Alpha">Alphabetical</option>
+                <option key='Low' value="Low">Price: Low to High</option>
+                <option key='High' value="High">Price: High to Low</option>
             </Select>
+            
+            {isMobile ? <> </> : <>
             <Text
             w={'100px'}
             fontSize={'sm'}
@@ -129,16 +127,18 @@ const MarketPlaceComponent: FC = () => {
               rounded={'md'}
               boxShadow={'lg'}
               onChange={(e) => { handlePagination(e)}} >
-                <option value="24">24</option>
-                <option value="48">48</option>
-                <option value="72">72</option>
+                <option key='24' value="24">24</option>
+                <option key='48' value="48">48</option>
+                <option key='72' value="72">72</option>
             </Select>
+            </>}
+
           </HStack>
         </GridItem>
 
-        <GridItem colSpan={4} h={'375px'} >
-          <HStack justifyContent={'space-between'}>
-            <SimpleGrid justifyContent={'center'} justifyItems={'center'} mb={'150'} columns={columns} spacing={6}>
+        <GridItem colSpan={{base:1,md:4}} h={'100%'} >
+          <HStack justifyContent={'center'}>
+            <SimpleGrid justifyContent={'center'} justifyItems={'center'} mb={'150'} columns={{base: 1, md: 2, lg: 3, xl: 4}} spacing={6}>
               {products?.map((product) => (
                   <ProductComponent key={product.id} {...product}/>
               ))}

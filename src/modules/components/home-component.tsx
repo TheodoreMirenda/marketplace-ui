@@ -18,23 +18,37 @@ const HomeComponent: FC = () => {
 
   return (
     <>
-        <Flex mt={0} paddingTop={0} minH={'1920px'} justifyContent={'left'} justifyItems={'left'} >
-        <Image
-            position={'absolute'}
-            src='/TheFishStore/img/fishTank.jpg'
-            opacity={1}
-            minH={'450px'}
-            zIndex={-1}
-            />
+        <Flex 
+          mt={0} 
+          paddingTop={0} 
+          h={{base:"100vh", md:"100vh"}}
 
-          <Flex mt={20} ml={20} w="60%" h="450px" justifyContent={'center'} justifyItems={'center'}
-          bgColor={'fishPalette.darkBlue'}
-          bg={'fishPalette.darkBlue'}
-          opacity={0.95}
-          rounded={'lg'}
-          boxShadow={'lg'}
-          padding={10}
+          justifyContent={'left'} 
+          justifyItems={'left'} 
           >
+          <Image
+              position={'absolute'}
+              src='/img/fishTank.jpg'
+              opacity={1}
+              h={{base:"100vh-80px", md:"100vh-80px"}}
+              minW={'1920px'}
+              zIndex={-1}
+              />
+
+          <Flex 
+            mt={{base:"5%", md:20}} 
+            ml={{base:"5%", md:20}} 
+            w={{base:"90%", md:"60%"}} 
+            h={{base:"650px", md:"450px"}} 
+            justifyContent={'center'} 
+            justifyItems={'center'}
+            bgColor={'fishPalette.darkBlue'}
+            bg={'fishPalette.darkBlue'}
+            opacity={0.95}
+            rounded={'lg'}
+            boxShadow={'lg'}
+            padding={10}
+            >
             <VStack spacing={2} alignItems={'left'} justifyContent={'left'} justifyItems={'left'}>
             <Text
                 fontSize={'md'}
